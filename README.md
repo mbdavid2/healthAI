@@ -1,2 +1,7 @@
-# void_mistery-
-Winner of the 2018 edition of HackUPC
+# void mistery()
+
+## Challenges:
+
+- AWSEducate
+- ThoughtWorks
+- .tech domains
