@@ -69,3 +69,5 @@ fabric.properties
 # Web
 
 website/node_modules/
+
+*.xml
