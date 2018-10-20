@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         /*
-         *  For a problem to be solvable:
+         *  For a problem9 to be solvable:
          *    count(0,prob) % 2 == count(0,sol) %2
          */
         int[] prob = new int[]{1, 0, 1, 1, 0};
@@ -56,8 +56,7 @@ public class Main {
     }
 
     private static void printActions(List actions) {
-        for (int i = 0; i < actions.size(); i++) {
-            String action = (String) actions.get(i);
+        for (Object action : actions) {
             System.out.println(action);
         }
     }
