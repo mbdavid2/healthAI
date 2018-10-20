@@ -2,156 +2,156 @@
   "vehicles": [
     {
       "name": "Benicarló",
-      "latitude": 40.741895,
-      "longitude": -73.989308,
+      "lat": 40.741895,
+      "lon": -73.989308,
       "type": "bravo"
     },
     {
       "name": "Peñíscola",
-      "latitude": 40.3593167,
-      "longitude": 0.36542039999994813,
+      "lat": 40.3593167,
+      "lon": 0.36542039999994813,
       "type": "bravo"
     },
     {
       "name": "Sant_Mateo",
-      "latitude": 40.4654987,
-      "longitude": 0.17876569999998537,
+      "lat": 40.4654987,
+      "lon": 0.17876569999998537,
       "type": "samu"
     },
     {
       "name": "Vinaròs",
-      "latitude": 40.4644537,
-      "longitude": 0.4500352000000021,
+      "lat": 40.4644537,
+      "lon": 0.4500352000000021,
       "type": "samu"
     },
     {
       "name": "Vinaròs",
-      "latitude": 40.4644537,
-      "longitude": 0.4500352000000021,
+      "lat": 40.4644537,
+      "lon": 0.4500352000000021,
       "type": "bravo"
     },
     {
       "name": "Traiguera",
-      "latitude": 40.5244341,
-      "longitude": 0.2895942999999761,
+      "lat": 40.5244341,
+      "lon": 0.2895942999999761,
       "type": "tna"
     },
     {
       "name": "Albocàsser",
-      "latitude": 40.356701,
-      "longitude": 0.025070499999969797,
+      "lat": 40.356701,
+      "lon": 0.025070499999969797,
       "type": "bravo"
     },
     {
       "name": "Morella",
-      "latitude": 40.6181387,
-      "longitude": -0.10154920000002221,
+      "lat": 40.6181387,
+      "lon": -0.10154920000002221,
       "type": "bravo"
     },
     {
       "name": "Vilafranca",
-      "latitude": 42.2784669,
-      "longitude": -1.74536420000004,
+      "lat": 42.2784669,
+      "lon": -1.74536420000004,
       "type": "samu"
     },
     {
       "name": "Castellón",
-      "latitude": 40.002782,
-      "longitude": -0.04192799999998442,
+      "lat": 40.002782,
+      "lon": -0.04192799999998442,
       "type": "samu"
     },
     {
       "name": "Castellón",
-      "latitude": 40.002782,
-      "longitude": -0.04192799999998442,
+      "lat": 40.002782,
+      "lon": -0.04192799999998442,
       "type": "helicoptero"
     },
     {
       "name": "Torreblanca",
-      "latitude": 40.2201804,
-      "longitude": 0.1951318999999785,
+      "lat": 40.2201804,
+      "lon": 0.1951318999999785,
       "type": "samu"
     },
     {
       "name": "Segorbe",
-      "latitude": 39.7952118,
-      "longitude": -0.46910969999998997,
+      "lat": 39.7952118,
+      "lon": -0.46910969999998997,
       "type": "samu"
     },
     {
       "name": "Vall_d_Uixò",
-      "latitude": 39.8242386,
-      "longitude": -0.2315017999999327,
+      "lat": 39.8242386,
+      "lon": -0.2315017999999327,
       "type": "samu"
     }
   ],
   "hospitals": [
     {
       "name": "Vinaròs",
-      "latitude": 40.4644537,
-      "longitude": 0.4500352000000021
+      "lat": 40.4644537,
+      "lon": 0.4500352000000021
     },
     {
       "name": "Sagundo",
-      "latitude": 39.67387220000001,
-      "longitude": -0.2317180999999664
+      "lat": 39.67387220000001,
+      "lon": -0.2317180999999664
     },
     {
       "name": "Castellón",
-      "latitude": 40.002782,
-      "longitude": -0.04192799999998442
+      "lat": 40.002782,
+      "lon": -0.04192799999998442
     }
   ],
   "medic_center": [
     {
       "name": "Benicarló",
-      "latitude": 40.741895,
-      "longitude": -73.989308
+      "lat": 40.741895,
+      "lon": -73.989308
     },
     {
       "name": "Peñíscola",
-      "latitude": 40.3593167,
-      "longitude": 0.36542039999994813
+      "lat": 40.3593167,
+      "lon": 0.36542039999994813
     },
     {
       "name": "Sant_Mateo",
-      "latitude": 40.4654987,
-      "longitude": 0.17876569999998537
+      "lat": 40.4654987,
+      "lon": 0.17876569999998537
     },
     {
       "name": "Traiguera",
-      "latitude": 40.5244341,
-      "longitude": 0.2895942999999761
+      "lat": 40.5244341,
+      "lon": 0.2895942999999761
     },
     {
       "name": "Albocàsser",
-      "latitude": 40.356701,
-      "longitude": 0.025070499999969797
+      "lat": 40.356701,
+      "lon": 0.025070499999969797
     },
     {
       "name": "Morella",
-      "latitude": 40.6181387,
-      "longitude": -0.10154920000002221
+      "lat": 40.6181387,
+      "lon": -0.10154920000002221
     },
     {
       "name": "Vilafranca",
-      "latitude": 42.2784669,
-      "longitude": -1.74536420000004
+      "lat": 42.2784669,
+      "lon": -1.74536420000004
     },
     {
       "name": "Torreblanca",
-      "latitude": 40.2201804,
-      "longitude": 0.1951318999999785
+      "lat": 40.2201804,
+      "lon": 0.1951318999999785
     },
     {
       "name": "Segorbe",
-      "latitude": 39.7952118,
-      "longitude": -0.46910969999998997
+      "lat": 39.7952118,
+      "lon": -0.46910969999998997
     },
     {
       "name": "Vall_d_Uixò",
-      "latitude": 39.8242386,
-      "longitude": -0.2315017999999327
+      "lat": 39.8242386,
+      "lon": -0.2315017999999327
     }
   ]
 }
