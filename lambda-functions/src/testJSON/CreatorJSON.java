@@ -104,13 +104,13 @@ public class CreatorJSON {
                     else if (key.equals("hospital")) {
                         JsonNumber bedsV = (JsonNumber) object.get(obj);
                         totalBeds = bedsV.intValue();
-                        //System.out.println("Total number of beds:  " + totalBeds);
+                        System.out.println("Total number of beds:  " + totalBeds);
                     }
                     break;
                 case 5:
                     JsonNumber bedsFV = (JsonNumber)object.get(obj);
                     freeBeds = bedsFV.intValue();
-                    //System.out.println("Free number of beds:  " + freeBeds);
+                    System.out.println("Free number of beds:  " + freeBeds);
                     break;
             }
             i++;

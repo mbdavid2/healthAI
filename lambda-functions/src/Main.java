@@ -30,10 +30,10 @@ public class Main {
             v.setEstablishmentOrigin(hospitals, medicCenters);
         }
 
-        State problemState = new State(vehicles, parser.getIncidents());
+        State problemState = new State(vehicles, parser.getIncidents(), hospitals, medicCenters);
 
-        State.hospitals = hospitals;
-        State.medicCenters = medicCenters;
+        /*problemState.setHospitals(hospitals);
+        problemState.setMedicCenters(medicCenters);*/
 
         /*System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);
@@ -53,8 +53,8 @@ public class Main {
 
         // We print the results of the search
         System.out.println();
-        // printActions(agent.getActions());
-        // printInstrumentation(agent.getInstrumentation());
+        printActions(agent.getActions());
+        printInstrumentation(agent.getInstrumentation());
 
         State goalState = (State) alg.getGoalState();
 

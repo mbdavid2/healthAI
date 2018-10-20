@@ -8,26 +8,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class State {
-    public static List<Hospital> hospitals;
-    public static List<MedicCenter> medicCenters;
+    public List<Hospital> hospitals;
+    public List<MedicCenter> medicCenters;
     List<Vehicle> usedVehicles;
     List<Incident> servedIncidents;
     List<Vehicle> unusedVehicles;
     List<Incident> unservedIncidents;
 
-    public State(List<Vehicle> vehicles, List<Incident> incidents) {
-        this(new ArrayList<>(), new ArrayList<>(), vehicles, incidents);
+    public State(List<Vehicle> vehicles, List<Incident> incident, List<Hospital> hospitals, List<MedicCenter> medicCenters) {
+        this(new ArrayList<>(), new ArrayList<>(), vehicles, incident, hospitals, medicCenters);
     }
 
-    public State(List<Vehicle> usedVehicles, List<Incident> servedIncidents, List<Vehicle> unusedVehicles, List<Incident> unservedIncidents) {
+    public State(List<Vehicle> usedVehicles, List<Incident> servedIncidents, List<Vehicle> unusedVehicles, List<Incident> unservedIncidents, List<Hospital> hospitals, List<MedicCenter> medicCenters) {
         this.usedVehicles = new ArrayList<>(usedVehicles);
         this.servedIncidents = new ArrayList<>(servedIncidents);
         this.unusedVehicles = new ArrayList<>(unusedVehicles);
         this.unservedIncidents = new ArrayList<>(unservedIncidents);
+        this.hospitals = new ArrayList<>(hospitals);
+        this.medicCenters = new ArrayList<>(medicCenters);
+    }
+
+    public List<Hospital> getHospitals() {
+        return hospitals;
+    }
+
+    public List<MedicCenter> getMedicCenters() {
+        return medicCenters;
+    }
+
+    public void setHospitals(List<Hospital> hospitals) {
+        this.hospitals = hospitals;
+    }
+
+    public void setMedicCenters(List<MedicCenter> medicCenters) {
+        this.medicCenters = medicCenters;
     }
 
     public State copiar() {
-        return new State(usedVehicles, servedIncidents, unusedVehicles, unservedIncidents);
+        return new State(usedVehicles, servedIncidents, unusedVehicles, unservedIncidents, hospitals, medicCenters);
     }
 
     private int number_of_vehicles() {
@@ -54,6 +72,7 @@ public class State {
         assert (unusedVehicles.contains(v));
         assert (unservedIncidents.contains(i));
         if (e.canAffordPacient(i)) {
+            //System.out.println(v + " ha entrat amb " + i);
             unusedVehicles.remove(v);
             usedVehicles.add(v);
             unservedIncidents.remove(i);
