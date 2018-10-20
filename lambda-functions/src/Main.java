@@ -1,19 +1,28 @@
 import ai_algorithms.State;
-import ai_algorithms.Goal;
-import ai_algorithms.Heuristic;
-import ai_algorithms.Succesors;
-import aima.search.framework.GraphSearch;
-import aima.search.framework.Problem;
-import aima.search.framework.Search;
-import aima.search.framework.SearchAgent;
-import aima.search.informed.AStarSearch;
 
+import entities.Incident;
+import entities.Vehicle;
+import testJSON.CreatorJSON;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+
+        //TODO: los news estos son provisionales
+        State problemState = new State(new ArrayList<Vehicle>(), new ArrayList<Incident>());
+
+        //Read contents from JSON file and store the information in the state
+        CreatorJSON parser = new CreatorJSON("./lambda-functions/src/testJSON/input.json");
+
+        problemState.hospitals = parser.getHospitals();
+        problemState.medicCenters = parser.getMedicCenters();
+
+        System.out.println(problemState.hospitals);
+        System.out.println(problemState.medicCenters);
 
         /*State board = new State(prob, sol);
 

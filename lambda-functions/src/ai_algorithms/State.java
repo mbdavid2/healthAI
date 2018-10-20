@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class State {
-    static List<Hospital> hospitals;
+    public static List<Hospital> hospitals;
     public static List<MedicCenter> medicCenters;
     List<Vehicle> usedVehicles;
     List<Incident> servedIncidents;
@@ -35,7 +35,7 @@ public class State {
         return servedIncidents.size() + unservedIncidents.size();
     }
 
-    public List<Establishment> getEstablisments() {
+    public List<Establishment> getEstablishments() {
         ArrayList<Establishment> t = new ArrayList<>(medicCenters);
         t.addAll(hospitals);
         return t;

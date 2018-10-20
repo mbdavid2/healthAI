@@ -5,7 +5,9 @@ import entities.Hospital;
 import entities.MedicCenter;
 import entities.Vehicle;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
 import java.util.ArrayList;
 import javax.json.Json;
 import javax.json.JsonReader;
@@ -16,19 +18,36 @@ import javax.json.JsonArray;
 import javax.json.JsonNumber;
 import javax.json.JsonString;
 
-public class createObjectJSONpp {
+public class CreatorJSON {
 
-    public static void main(String[] args) throws Exception {
-        JsonReader reader = Json.createReader(new FileReader("./lambda-functions/src/testJSON/input.json"));
+    private List<Hospital> hospitals;
+    private List<MedicCenter> medicCenters;
+
+    public CreatorJSON(String filePath) {
+        JsonReader reader = null;
+        try {
+            reader = Json.createReader(new FileReader("./lambda-functions/src/testJSON/input.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         JsonStructure jsonst = reader.read();
+        hospitals = new ArrayList<Hospital>();
+        medicCenters = new ArrayList<MedicCenter>();
         navigateTreeCreateObjects(jsonst, "A.rar");
         //navigatePrintTree(jsonst, "A.rar");
     }
 
-    private static Establishment getArrayObject(JsonValue tree, String key) {
+    public List<Hospital> getHospitals() {
+        return hospitals;
+    }
+
+    public List<MedicCenter> getMedicCenters() {
+        return medicCenters;
+    }
+
+    private void getArrayObject(JsonValue tree, String key) {
         /*System.out.println("testing");
         return new Hospital(2, 2, 2, 2);*/
-        System.out.println("salu2");
         JsonObject object = (JsonObject) tree;
         int i = 0;
         double lat = 0, lon = 0;
@@ -38,31 +57,35 @@ public class createObjectJSONpp {
             switch (i) {
                 case 0:
                     //TODO: EL id si es un hospital es un string y si es un medic center es un entero asi que peta
-                    JsonString idV = (JsonString) object.get(obj);
+                    /*JsonString idV = (JsonString) object.get(obj);
                     id = idV.toString();
-                    System.out.println("test  " + id);
+                    System.out.println("test  " + id);*/
+                    System.out.println("Ignoring id");
                     break;
                 case 1:
                     JsonString nameV = (JsonString) object.get(obj);
                     name = nameV.toString();
-                    System.out.println("test  " + name);
+                    System.out.println("Name:  " + name);
                     break;
                 case 2:
                     JsonNumber latV = (JsonNumber) object.get(obj);
                     lat = latV.doubleValue();
-                    System.out.println("test  " + lat);
+                    System.out.println("Lat:  " + lat);
                     break;
                 case 3:
                     JsonNumber lonV = (JsonNumber)object.get(obj);
                     lon = lonV.doubleValue();
+                    System.out.println("Long:  " + lon);
                     break;
                 case 4:
                     JsonNumber bedsV = (JsonNumber)object.get(obj);
                     totalBeds = bedsV.intValue();
+                    System.out.println("Total number of beds:  " + totalBeds);
                     break;
                 case 5:
                     JsonNumber bedsFV = (JsonNumber)object.get(obj);
                     freeBeds = bedsFV.intValue();
+                    System.out.println("Free number of beds:  " + freeBeds);
                     break;
             }
             i++;
@@ -70,25 +93,26 @@ public class createObjectJSONpp {
         //All data of the object obtained, create it
         if (key.equals("create_medic_center")) {
             //TODO: añadir al constructor name, id y vehiculos????
-            MedicCenter test = new MedicCenter(lat, lon);
-            System.out.println(test);
-            return test;
+            MedicCenter newMed = new MedicCenter(lat, lon);
+            System.out.println(newMed);
+            System.out.println();
+            medicCenters.add(newMed);
         }
         else {
-            Hospital test = new Hospital(lat, lon, totalBeds, freeBeds);
-            System.out.println(test);
-            return test;
+            Hospital newHosp = new Hospital(lat, lon, totalBeds, freeBeds);
+            System.out.println(newHosp);
+            System.out.println();
+            hospitals.add(newHosp);
         }
     }
 
-    private static void navigateTreeCreateObjects(JsonValue tree, String key) {
+    private void navigateTreeCreateObjects(JsonValue tree, String key) {
         if (key != null) {
             System.out.print("Key " + key + ": ");
             if (key.equals("medic_center") || key.equals("hospitals")) {
                 JsonArray array = (JsonArray) tree;
-                ArrayList<Establishment> establishments = new ArrayList<>();
                 for (JsonValue val : array)
-                    establishments.add(getArrayObject(val, "create_" + key));
+                    getArrayObject(val, "create_" + key);
             }
             else if (key.equals("vehicles")) {
                 System.out.println("Holita");
@@ -107,7 +131,7 @@ public class createObjectJSONpp {
         else System.out.println("play despacito");
     }
 
-    private static void navigatePrintTree(JsonValue tree, String key) {
+    private void navigatePrintTree(JsonValue tree, String key) {
         if (key != null)
             System.out.print("Key " + key + ": ");
         switch(tree.getValueType()) {
