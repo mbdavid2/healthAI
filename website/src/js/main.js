@@ -114,7 +114,7 @@ function drawIncidences(map, data, bound, info) {
             icon: {
                 fillColor: INCIDENCE_COLORS[incidence.gravity],
                 fillOpacity: 1,
-                scale: 6,
+                scale: 9,
                 strokeWeight: 2,
                 anchor: new google.maps.Point(0,0),
                 path: google.maps.SymbolPath.CIRCLE
