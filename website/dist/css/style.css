@@ -20,3 +20,13 @@ main#map {
     margin-left: -2.5rem;
     margin-top: 1.25rem;
 }
+
+#submitIncidences {
+    z-index: 99;
+    position: absolute;
+    bottom: 1rem;
+    display: block;
+    width: 10em;
+    margin-left: -5em;
+    left: 50%;
+}

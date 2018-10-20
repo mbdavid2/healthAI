@@ -6,6 +6,12 @@ const INCIDENCE_COLORS = {
     5: 'blue'
 };
 
+let infoWindow = null;
+let map = null;
+let tempMark = null;
+let incidences = [];
+let incidenceMarkers = [];
+
 function initMap() {
     TxtOverlay.prototype = new google.maps.OverlayView();
 
@@ -83,20 +89,54 @@ function initMap() {
     };
 
     // The map, centered at Uluru
-    var data = getData();
-    var map = new google.maps.Map(
+    map = new google.maps.Map(
         document.getElementById('map'), {zoom: 4, center: {lat: 0, lng: 0},
             mapTypeId: google.maps.MapTypeId.ROADMAP});
-    let infoWindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow();
     infoWindow.setMap(map);
+
+    $('#submitIncidences')
+        .removeAttr("hidden")
+        .click(()=>{$('#submitIncidences').remove(); drawData(getData());});
+
+    map.addListener('click', (event) => {
+        if(tempMark) {
+            tempMark.setMap(null);
+            tempMark = null;
+        }
+
+        tempMark = new google.maps.Marker({position: event.latLng, map: map});
+        let content = $(`<div>Impact: <input type="number" min=1 max=5 value=5><button class="btn btn-secondary btn-sm m-1">Save</button></div>`);
+        infoWindow.setContent(content[0]);
+        content.find("button").click(()=>{
+            let incidence =  {
+                position: {lat: event.latLng.lat(), lng: event.latLng.lng()},
+                gravity: content.find("input").val()};
+            incidences.push(incidence);
+            google.maps.event.clearListeners(infoWindow, 'closeclick');
+            infoWindow.close();
+            incidenceMarkers.push(tempMark);
+            tempMark = null;
+        });
+        infoWindow.addListener('closeclick', ()=>{
+            tempMark.setMap(null);
+            tempMark = null;
+            google.maps.event.clearListeners(infoWindow, 'closeclick');
+        });
+
+        infoWindow.open(map, tempMark);
+    });
+}
+
+function drawData(data) {
     let bound = new google.maps.LatLngBounds();
-    drawCenters(map, data, bound, infoWindow);
-    drawIncidences(map, data, bound, infoWindow);
-    drawRoutes(map, data);
+    drawCenters(data, bound, infoWindow);
+    drawIncidences(data, bound, infoWindow);
+    drawRoutes(data);
     map.fitBounds(bound);
 }
 
-function drawCenters(map, data, bound, info) {
+function drawCenters(data, bound, info) {
     for(let [id, center] of Object.entries(data.centers)) {
         let marker = new google.maps.Marker({position: center.position, map: map});
         marker.addListener('click', ()=>{
@@ -107,7 +147,7 @@ function drawCenters(map, data, bound, info) {
     }
 }
 
-function drawIncidences(map, data, bound, info) {
+function drawIncidences(data, bound, info) {
     for(let [id, incidence] of Object.entries(data.incidences)) {
         let marker = new google.maps.Marker({
             position: incidence.position,
@@ -122,13 +162,13 @@ function drawIncidences(map, data, bound, info) {
             map: map});
         marker.addListener('click', ()=>{
             info.setContent(`Code: <b>${id}</b><br>Impact: <b style="color: ${INCIDENCE_COLORS[incidence.gravity]}">${incidence.gravity}</b>`);
-            info.open(map, marker);
+            info.open(marker);
         });
         bound.extend(incidence.position);
     }
 }
 
-function drawVehicle(map, position, vehicleId, vehicle) {
+function drawVehicle(position, vehicleId, vehicle) {
     var marker = new google.maps.Marker({
         position: position,
         icon: {
@@ -148,10 +188,10 @@ function drawVehicle(map, position, vehicleId, vehicle) {
  * @param map
  * @param {ApiInterface} data
  */
-function drawRoutes(map, data) {
+function drawRoutes(data) {
     for(let route of data.routes) {
-        drawRoute(map, data, route);
-        drawVehicle(map,
+        drawRoute(data, route);
+        drawVehicle(
             data.centers[route.originCenter].position,
             route.vehicle,
             data.vehicles[route.vehicle]);
@@ -160,11 +200,10 @@ function drawRoutes(map, data) {
 
 /**
  *
- * @param {google.maps.Map} map
  * @param {ApiInterface} data
  * @param {RouteInterface} route
  */
-function drawRoute(map, data, route) {
+function drawRoute(data, route) {
     var path = new google.maps.Polyline({
         path: [
             data.centers[route.originCenter].position,
