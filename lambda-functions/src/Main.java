@@ -18,17 +18,18 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        //TODO: los news estos son provisionales
-        State problemState = new State(new ArrayList<Vehicle>(), new ArrayList<Incident>());
-
         //Read contents from JSON file and store the information in the state
         CreatorJSON parser = new CreatorJSON("./lambda-functions/src/testJSON/input.json");
+
+        //TODO: los news estos son provisionales
+        State problemState = new State( parser.getVehicles(), parser.getIncidents());
 
         problemState.hospitals = parser.getHospitals();
         problemState.medicCenters = parser.getMedicCenters();
 
         System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);
+        System.out.println(parser.getVehicles());
 
         // Create the Problem
         // Create the Problem object

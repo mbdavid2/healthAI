@@ -20,7 +20,7 @@ public class CreatorJSON {
     private List<Hospital> hospitals;
     private List<MedicCenter> medicCenters;
     private List<Vehicle> vehicles;
-
+    private List<Incident> incidents;
 
     public CreatorJSON(String filePath) {
         JsonReader reader = null;
@@ -32,6 +32,8 @@ public class CreatorJSON {
         JsonStructure jsonst = reader.read();
         hospitals = new ArrayList<Hospital>();
         medicCenters = new ArrayList<MedicCenter>();
+        vehicles = new ArrayList<Vehicle>();
+        incidents = new ArrayList<Incident>();
         navigateTreeCreateObjects(jsonst, "A.rar");
         //navigatePrintTree(jsonst, "A.rar");
     }
@@ -43,6 +45,15 @@ public class CreatorJSON {
     public List<MedicCenter> getMedicCenters() {
         return medicCenters;
     }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public List<Incident> getIncidents() {
+        return incidents;
+    }
+
 
     private void getArrayObject(JsonValue tree, String key) {
         /*System.out.println("testing");
@@ -82,9 +93,9 @@ public class CreatorJSON {
                     if (key.equals("vehicles")) {
                         JsonString typeV = (JsonString) object.get(obj);
                         type = typeV.toString();
-                        System.out.println("Type:  " + type);
+                        System.out.println("Type: " + type);
                     }
-                    else {
+                    else if (key.equals("hospital")) {
                         JsonNumber bedsV = (JsonNumber) object.get(obj);
                         totalBeds = bedsV.intValue();
                         System.out.println("Total number of beds:  " + totalBeds);
@@ -99,21 +110,21 @@ public class CreatorJSON {
             i++;
         }
         //All data of the object obtained, create it
-        if (key.equals("create_medic_center")) {
+        if (key.equals("medic_center")) {
             //TODO: añadir al constructor name, id y vehiculos????
             MedicCenter newMed = new MedicCenter(lat, lon, name);
             System.out.println(newMed);
             System.out.println();
             medicCenters.add(newMed);
         }
-        else if (key.equals("create_hospitals")){
+        else if (key.equals("hospitals")){
             Hospital newHosp = new Hospital(lat, lon, name, totalBeds, freeBeds);
             System.out.println(newHosp);
             System.out.println();
             hospitals.add(newHosp);
         }
         else {
-            Vehicle newVehicle = new Vehicle(Type.valueOf(type), id);
+            Vehicle newVehicle = new Vehicle(Type.valueOf("bravo"), name);
             System.out.println(newVehicle);
             System.out.println();
             vehicles.add(newVehicle);
@@ -123,16 +134,10 @@ public class CreatorJSON {
     private void navigateTreeCreateObjects(JsonValue tree, String key) {
         if (key != null) {
             System.out.print("Key " + key + ": ");
-            if (key.equals("medic_center") || key.equals("hospitals")) {
+            if (key.equals("medic_center") || key.equals("hospitals") || key.equals("vehicles")) {
                 JsonArray array = (JsonArray) tree;
                 for (JsonValue val : array)
-                    getArrayObject(val, "create_" + key);
-            }
-            else if (key.equals("vehicles")) {
-                /*JsonArray array = (JsonArray) tree;
-                for (JsonValue val : array)
-                    navigateTreeCreateObjects(val, null);*/
-                System.out.println("ignoring");
+                    getArrayObject(val, key);
             }
             else {
                 System.out.println("OBJECT");
