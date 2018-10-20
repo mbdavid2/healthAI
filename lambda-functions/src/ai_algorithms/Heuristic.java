@@ -6,10 +6,10 @@ package ai_algorithms;
 
 import aima.search.framework.HeuristicFunction;
 
-public class ProbIA5HeuristicFunction implements HeuristicFunction {
+public class Heuristic implements HeuristicFunction {
 
     public int getHeuristicValue(Object n) {
 
-        return ((ProbIA5Board) n).heuristic();
+        return ((State) n).heuristic();
     }
 }

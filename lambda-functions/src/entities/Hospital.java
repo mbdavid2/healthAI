@@ -1,6 +1,6 @@
 package entities;
 
-public class HospitaI extends Establishment {
+public class Hospital extends Establishment {
 
     private int freeBeds;
 }

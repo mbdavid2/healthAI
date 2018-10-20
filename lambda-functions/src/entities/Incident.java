@@ -1,16 +1,24 @@
 package entities;
 
-enum Level {
-    RED, GREEN, BLUE, YELLOW, ORANGE;
-}
-
+import java.awt.*;
 
 public class Incident {
 
     private int latitude;
     private int longitude;
 
-    private Level gravity;
+    // 1: important -> 5: not important
+    private int gravity;
+
+    public Incident(int latitude, int longitude, int gravity) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.gravity = gravity;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
 
     public int getLatitude() {
         return latitude;
@@ -18,5 +26,9 @@ public class Incident {
 
     public int getLongitude() {
         return longitude;
+    }
+
+    public Point getLocation() {
+        return new Point(latitude, longitude);
     }
 }
