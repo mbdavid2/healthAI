@@ -1,7 +1,7 @@
 package entities;
 
 public class MedicCenter extends Establishment {
-    public MedicCenter(int lat, int lon) {
+    public MedicCenter(double lat, double lon) {
         super(lat, lon);
     }
 

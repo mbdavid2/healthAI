@@ -4,26 +4,26 @@ import java.awt.*;
 
 public abstract class Establishment {
 
-    private int latitude;
+    private double latitude;
 
-    private int longitude;
+    private double longitude;
 
-    public Establishment(int lat, int lon) {
+    public Establishment(double lat, double lon) {
         this.latitude = lat;
         this.longitude = lon;
     }
 
-    public int getLatitude () {
+    public double getLatitude () {
         return latitude;
     }
 
-    public int getLongitude () {
+    public double getLongitude () {
         return longitude;
     }
 
-    public Point getLocation() {
+    /*public Point getLocation() {
         return new Point(latitude, longitude);
-    }
+    }*/
 
     public abstract boolean canAffordPacient(Incident i);
     public abstract void placePacient();

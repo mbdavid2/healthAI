@@ -18,20 +18,20 @@ public class Vehicle {
         this.destination = destination;
     }
 
-    public int getLatitudeOrigin() {
+    public double getLatitudeOrigin() {
         return origin.getLatitude();
     }
 
-    public int getLongitudeOrigin() {
+    public double getLongitudeOrigin() {
         return origin.getLongitude();
     }
 
 
-    public int getLatitudeDestination() {
+    public double getLatitudeDestination() {
         return destination.getLatitude();
     }
 
-    public int getLongitudeDestination() {
+    public double getLongitudeDestination() {
         return destination.getLongitude();
     }
 
@@ -45,10 +45,10 @@ public class Vehicle {
         this.incident = null;
     }
 
-    public double distance() {
+    /*public double distance() {
         if (incident == null) return 0;
         return origin.getLocation().distance(incident.getLocation()) + incident.getLocation().distance(destination.getLocation());
-    }
+    }*/
 
     public Establishment getDestination() {
         return destination;

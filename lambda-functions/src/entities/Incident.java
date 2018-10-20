@@ -4,13 +4,13 @@ import java.awt.*;
 
 public class Incident {
 
-    private int latitude;
-    private int longitude;
+    private double latitude;
+    private double longitude;
 
     // 1: important -> 5: not important
     private int gravity;
 
-    public Incident(int latitude, int longitude, int gravity) {
+    public Incident(double latitude, double longitude, int gravity) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.gravity = gravity;
@@ -20,15 +20,15 @@ public class Incident {
         return gravity;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public Point getLocation() {
+    /*public Point getLocation() {
         return new Point(latitude, longitude);
-    }
+    }*/
 }

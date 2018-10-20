@@ -88,7 +88,8 @@ public class State {
     private double kmVehiclesHeuristic() {
         double t = 0;
         for (Vehicle v : usedVehicles) {
-            t += v.distance();
+            //t += v.distance();
+            t += -1; //TODO: esto es por el point que hay que ponerlo con doubles
         }
         return t / ((double) number_of_vehicles() * 100.);
     }

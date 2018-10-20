@@ -5,7 +5,7 @@ public class Hospital extends Establishment {
     private int numBeds;
     private int freeBeds;
 
-    public Hospital(int lat, int lon, int numBeds, int freeBeds) {
+    public Hospital(double lat, double lon, int numBeds, int freeBeds) {
         super(lat, lon);
         this.freeBeds = freeBeds;
     }
