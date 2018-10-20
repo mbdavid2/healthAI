@@ -1,9 +1,6 @@
 package testJSON;
 
-import entities.Establishment;
-import entities.Hospital;
-import entities.MedicCenter;
-import entities.Vehicle;
+import entities.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,6 +19,8 @@ public class CreatorJSON {
 
     private List<Hospital> hospitals;
     private List<MedicCenter> medicCenters;
+    private List<Vehicle> vehicles;
+
 
     public CreatorJSON(String filePath) {
         JsonReader reader = null;
@@ -52,7 +51,7 @@ public class CreatorJSON {
         int i = 0;
         double lat = 0, lon = 0;
         int totalBeds = 0, freeBeds = 0;
-        String name = "biene", id;
+        String name = "biene", type = "kachow", id;
         for (String obj : object.keySet()) {
             switch (i) {
                 case 0:
@@ -78,9 +77,16 @@ public class CreatorJSON {
                     System.out.println("Long:  " + lon);
                     break;
                 case 4:
-                    JsonNumber bedsV = (JsonNumber)object.get(obj);
-                    totalBeds = bedsV.intValue();
-                    System.out.println("Total number of beds:  " + totalBeds);
+                    if (key.equals("vehicles")) {
+                        JsonString typeV = (JsonString) object.get(obj);
+                        type = typeV.toString();
+                        System.out.println("Type:  " + type);
+                    }
+                    else {
+                        JsonNumber bedsV = (JsonNumber) object.get(obj);
+                        totalBeds = bedsV.intValue();
+                        System.out.println("Total number of beds:  " + totalBeds);
+                    }
                     break;
                 case 5:
                     JsonNumber bedsFV = (JsonNumber)object.get(obj);
@@ -98,11 +104,17 @@ public class CreatorJSON {
             System.out.println();
             medicCenters.add(newMed);
         }
-        else {
+        else if (key.equals("create_hospitals")){
             Hospital newHosp = new Hospital(lat, lon, totalBeds, freeBeds);
             System.out.println(newHosp);
             System.out.println();
             hospitals.add(newHosp);
+        }
+        else {
+            /*Vehicle newVehicle = new Vehicle(Type.valueOf(type), name);
+            System.out.println(newVehicle);
+            System.out.println();
+            vehicles.add(newVehicle);*/
         }
     }
 
@@ -115,7 +127,6 @@ public class CreatorJSON {
                     getArrayObject(val, "create_" + key);
             }
             else if (key.equals("vehicles")) {
-                System.out.println("Holita");
                 /*JsonArray array = (JsonArray) tree;
                 for (JsonValue val : array)
                     navigateTreeCreateObjects(val, null);*/
