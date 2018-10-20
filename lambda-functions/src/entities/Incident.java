@@ -1,7 +1,7 @@
 package entities;
 
 enum Level {
-    RED, GREEN, BLUE, YELLOW, ORANGE;
+    red, green, blue, yellow, orange;
 }
 
 public class Incident {
