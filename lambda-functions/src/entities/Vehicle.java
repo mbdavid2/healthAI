@@ -6,6 +6,14 @@ import java.util.ArrayList;
 
 public class Vehicle {
     private Type vehicleType;
+
+    private static int ID_COUNTER = 0;
+    private int id;
+
+    public Type getVehicleType() {
+        return vehicleType;
+    }
+
     private Incident incident;
     private String establishment;
     private Establishment origin;
@@ -15,6 +23,7 @@ public class Vehicle {
         this.vehicleType = vehicleType;
         this.establishment = establishmentName;
         this.origin = null;
+        this.id = ID_COUNTER++;
     }
 
     public void setDestination(Establishment destination) {
@@ -72,5 +81,9 @@ public class Vehicle {
 
     public Incident getIncident() {
         return incident;
+    }
+
+    public int getId() {
+        return id;
     }
 }

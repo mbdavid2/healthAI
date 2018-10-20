@@ -1,7 +1,6 @@
 import ai_algorithms.*;
 
 import entities.Hospital;
-import entities.Incident;
 import entities.MedicCenter;
 import entities.Vehicle;
 
@@ -33,8 +32,8 @@ public class Main {
 
         State problemState = new State(vehicles, parser.getIncidents());
 
-        problemState.hospitals = hospitals;
-        problemState.medicCenters = medicCenters;
+        State.hospitals = hospitals;
+        State.medicCenters = medicCenters;
 
         /*System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);
@@ -54,8 +53,12 @@ public class Main {
 
         // We print the results of the search
         System.out.println();
-        printActions(agent.getActions());
-        printInstrumentation(agent.getInstrumentation());
+        // printActions(agent.getActions());
+        // printInstrumentation(agent.getInstrumentation());
+
+        State goalState = (State) alg.getGoalState();
+
+        System.out.println(goalState.toJsonStr());
     }
 
     private static void printInstrumentation(Properties properties) {

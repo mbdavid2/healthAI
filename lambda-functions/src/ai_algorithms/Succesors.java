@@ -42,12 +42,10 @@ public class Succesors implements SuccessorFunction {
                 }
             }
         }
-        System.out.println(state.heuristic());
-        System.out.println("dsadadasda");
+        /* System.out.println(state.heuristic());
         for (Successor s: successors) {
-            System.out.println(((State) s.getState()).heuristic());
-
-        }
+            System.out.println(" -->" + ((State) s.getState()).heuristic());
+        } */
 
         return successors;
 

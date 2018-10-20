@@ -5,6 +5,10 @@ public class Hospital extends Establishment {
     private int numBeds;
     private int freeBeds;
 
+    public int getNumBeds() {
+        return numBeds;
+    }
+
     public Hospital(double lat, double lon, String name, int numBeds, int freeBeds) {
         super(lat, lon, name);
         this.freeBeds = freeBeds;

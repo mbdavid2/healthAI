@@ -19,4 +19,14 @@ public class MedicCenter extends Establishment {
     public void freePacient() {
 
     }
+
+    @Override
+    public int getNumBeds() {
+        return 0;
+    }
+
+    @Override
+    public int getFreeBeds() {
+        return 0;
+    }
 }
