@@ -1,12 +1,18 @@
-import ai_algorithms.State;
+import ai_algorithms.*;
 
 import entities.Incident;
 import entities.Vehicle;
+
 import testJSON.CreatorJSON;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import aima.search.framework.Problem;
+import aima.search.framework.Search;
+import aima.search.framework.SearchAgent;
+import aima.search.informed.HillClimbingSearch;
 
 public class Main {
 
@@ -24,17 +30,15 @@ public class Main {
         System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);
 
-        /*State board = new State(prob, sol);
-
+        // Create the Problem
         // Create the Problem object
-        Problem p = new Problem(board,
+        Problem p = new Problem(problemState,
                 new Succesors(),
                 new Goal(),
                 new Heuristic());
 
         // Instantiate the search algorithm
-        // AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
-        Search alg = new AStarSearch(new GraphSearch());
+        Search alg = new HillClimbingSearch();
 
         // Instantiate the SearchAgent object
         SearchAgent agent = new SearchAgent(p, alg);
@@ -43,10 +47,6 @@ public class Main {
         System.out.println();
         printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
-
-        // You can access also to the goal state using the
-        // method getGoalState of class Search
-*/
     }
 
     private static void printInstrumentation(Properties properties) {

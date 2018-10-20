@@ -56,7 +56,7 @@ public class CreatorJSON {
         for (String obj : object.keySet()) {
             switch (i) {
                 case 0:
-                    //TODO: EL id si es un hospital es un string y si es un medic center es un entero asi que peta
+                    //TODO: EL id si es un hospital es un string y si es un medic center es un entero asi que peta, ignoramos de momento
                     /*JsonString idV = (JsonString) object.get(obj);
                     id = idV.toString();
                     System.out.println("test  " + id);*/
