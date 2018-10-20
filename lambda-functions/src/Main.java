@@ -1,6 +1,8 @@
 import ai_algorithms.*;
 
+import entities.Hospital;
 import entities.Incident;
+import entities.MedicCenter;
 import entities.Vehicle;
 
 import testJSON.CreatorJSON;
@@ -21,18 +23,24 @@ public class Main {
         //Read contents from JSON file and store the information in the state
         CreatorJSON parser = new CreatorJSON("./lambda-functions/src/testJSON/input.json");
 
-        //TODO: los news estos son provisionales
-        State problemState = new State( parser.getVehicles(), parser.getIncidents());
+        ArrayList<Vehicle> vehicles = parser.getVehicles();
+        ArrayList<Hospital> hospitals = parser.getHospitals();
+        ArrayList<MedicCenter> medicCenters = parser.getMedicCenters();
 
-        problemState.hospitals = parser.getHospitals();
-        problemState.medicCenters = parser.getMedicCenters();
+        for (Vehicle v: vehicles) {
+            v.setEstablishmentOrigin(hospitals, medicCenters);
+        }
 
-        System.out.println(problemState.hospitals);
+        State problemState = new State(vehicles, parser.getIncidents());
+
+        problemState.hospitals = hospitals;
+        problemState.medicCenters = medicCenters;
+
+        /*System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);
-        System.out.println(parser.getVehicles());
+        System.out.println(parser.getVehicles());*/
 
         // Create the Problem
-        // Create the Problem object
         Problem p = new Problem(problemState,
                 new Succesors(),
                 new Goal(),

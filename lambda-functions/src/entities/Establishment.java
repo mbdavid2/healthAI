@@ -25,6 +25,10 @@ public abstract class Establishment {
         return longitude;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Point2D.Double getLocation() {
         return new Point2D.Double(latitude, longitude);
     }

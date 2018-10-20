@@ -77,7 +77,7 @@ public class State {
         double a = incidentsHeuristic();
         double b = kmVehiclesHeuristic();
         double c = mobilizedVehiclesHeuristic();
-        return (int) (10000.d * (3 * a + b - c));
+        return (int) (10000.d * (3 * a - b - c));
 
     }
 

@@ -2,6 +2,7 @@ package entities;
 
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Vehicle {
     private Type vehicleType;
@@ -20,10 +21,17 @@ public class Vehicle {
         this.destination = destination;
     }
 
-    public void setEstablishmentOrigin() {
+    public void setEstablishmentOrigin(ArrayList<Hospital> hospitals, ArrayList<MedicCenter> medicCenters) {
         //Tenemos el string del lugar, ahora que los lugares ya estan guardados, lo buscamos y apuntamos aquí al objeto
         //para saber la localización. Esto se debe hacer una vez el JSON ha sido parseado
 
+        //A partir de "establishment" - encontrar origin
+        for (Hospital h: hospitals) {
+            if (h.getName().equals(establishment)) origin = h;
+        }
+        for (MedicCenter mc: medicCenters) {
+            if (mc.getName().equals(establishment)) origin = mc;
+        }
     }
 
     public double getLatitudeOrigin() {

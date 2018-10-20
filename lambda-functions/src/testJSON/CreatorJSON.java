@@ -17,10 +17,10 @@ import javax.json.JsonString;
 
 public class CreatorJSON {
 
-    private List<Hospital> hospitals;
-    private List<MedicCenter> medicCenters;
-    private List<Vehicle> vehicles;
-    private List<Incident> incidents;
+    private ArrayList<Hospital> hospitals;
+    private ArrayList<MedicCenter> medicCenters;
+    private ArrayList<Vehicle> vehicles;
+    private ArrayList<Incident> incidents;
 
     public CreatorJSON(String filePath) {
         JsonReader reader = null;
@@ -38,22 +38,21 @@ public class CreatorJSON {
         //navigatePrintTree(jsonst, "A.rar");
     }
 
-    public List<Hospital> getHospitals() {
+    public ArrayList<Hospital> getHospitals() {
         return hospitals;
     }
 
-    public List<MedicCenter> getMedicCenters() {
+    public ArrayList<MedicCenter> getMedicCenters() {
         return medicCenters;
     }
 
-    public List<Vehicle> getVehicles() {
+    public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
 
-    public List<Incident> getIncidents() {
+    public ArrayList<Incident> getIncidents() {
         return incidents;
     }
-
 
     private void getArrayObject(JsonValue tree, String key) {
         /*System.out.println("testing");
