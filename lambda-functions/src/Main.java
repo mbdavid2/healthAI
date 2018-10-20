@@ -1,7 +1,7 @@
-import ai_algorithms.ProbIA5Board;
-import ai_algorithms.ProbIA5GoalTest;
-import ai_algorithms.ProbIA5HeuristicFunction;
-import ai_algorithms.ProbIA5SuccesorFunction;
+import ai_algorithms.State;
+import ai_algorithms.Goal;
+import ai_algorithms.Heuristic;
+import ai_algorithms.Succesors;
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
@@ -14,20 +14,14 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        /*
-         *  For a problem9 to be solvable:
-         *    count(0,prob) % 2 == count(0,sol) %2
-         */
-        int[] prob = new int[]{1, 0, 1, 1, 0};
-        int[] sol = new int[]{1, 1, 0, 1, 0};
 
-        ProbIA5Board board = new ProbIA5Board(prob, sol);
+        State board = new State(prob, sol);
 
         // Create the Problem object
         Problem p = new Problem(board,
-                new ProbIA5SuccesorFunction(),
-                new ProbIA5GoalTest(),
-                new ProbIA5HeuristicFunction());
+                new Succesors(),
+                new Goal(),
+                new Heuristic());
 
         // Instantiate the search algorithm
         // AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
