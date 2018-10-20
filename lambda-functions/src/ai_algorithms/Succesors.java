@@ -8,9 +8,6 @@ import entities.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bejar on 17/01/17
- */
 public class Succesors implements SuccessorFunction {
     public List getSuccessors(Object o) {
         ArrayList<State> successors = new ArrayList<>();

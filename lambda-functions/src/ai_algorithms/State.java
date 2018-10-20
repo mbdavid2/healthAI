@@ -1,22 +1,14 @@
 package ai_algorithms;
 
 import entities.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bejar on 17/01/17.
- */
 public class State {
-    /* Class independent from AIMA classes
-       - It has to implement the state of the problem and its operators
-     *
-    */
     static List<Hospital> hospitals;
     public static List<MedicCenter> medicCenters;
-    List<Vehicle> usedVehicles = new ArrayList<>();
-    List<Incident> servedIncidents = new ArrayList<>();
+    List<Vehicle> usedVehicles;
+    List<Incident> servedIncidents;
     List<Vehicle> unusedVehicles;
     List<Incident> unservedIncidents;
 
@@ -44,7 +36,7 @@ public class State {
     }
 
     public List<Establishment> getEstablisments() {
-        ArrayList<Establishment> t = new ArrayList<Establishment>(medicCenters);
+        ArrayList<Establishment> t = new ArrayList<>(medicCenters);
         t.addAll(hospitals);
         return t;
     }
