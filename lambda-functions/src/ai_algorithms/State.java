@@ -3,7 +3,9 @@ package ai_algorithms;
 import entities.*;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +138,7 @@ public class State {
     }
 
     public String toJsonStr() {
-        var vehicles = Json.createObjectBuilder();
+        JsonObjectBuilder vehicles = Json.createObjectBuilder();
         for (Vehicle v : usedVehicles) {
             vehicles.add("V-" + v.getId(), v.getVehicleType().toString());
         }
@@ -144,13 +146,13 @@ public class State {
             vehicles.add("V-" + v.getId(), v.getVehicleType().toString());
         }
 
-        var centers = Json.createObjectBuilder();
+        JsonObjectBuilder centers = Json.createObjectBuilder();
         for (Establishment c : getEstablishments()) {
             centers.add("C-" + c.getId(), c.toJson());
         }
 
 
-        var incidences = Json.createObjectBuilder();
+        JsonObjectBuilder incidences = Json.createObjectBuilder();
         for (Incident i : getIncidents()) {
             incidences.add(
                     "I-" + i.getId(),
@@ -165,7 +167,7 @@ public class State {
             );
         }
 
-        var routes = Json.createArrayBuilder();
+        JsonArrayBuilder routes = Json.createArrayBuilder();
         for (Vehicle v : usedVehicles) {
             routes.add(Json.createObjectBuilder()
                     .add("vehicle", "V-" + v.getId())
