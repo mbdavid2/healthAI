@@ -77,40 +77,40 @@ public class CreatorJSON {
                     if (key.equals("incidents")) {
                         JsonNumber gravityV = (JsonNumber) object.get(obj);
                         gravity = gravityV.intValue();
-                        System.out.println("Gravity:  " + gravity);
+                        //System.out.println("Gravity:  " + gravity);
                     }
                     else {
                         JsonString nameV = (JsonString) object.get(obj);
                         name = nameV.toString();
-                        System.out.println("Name:  " + name);
+                        //System.out.println("Name:  " + name);
                     }
                     break;
                 case 2:
                     JsonNumber latV = (JsonNumber) object.get(obj);
                     lat = latV.doubleValue();
-                    System.out.println("Lat:  " + lat);
+                    //System.out.println("Lat:  " + lat);
                     break;
                 case 3:
                     JsonNumber lonV = (JsonNumber)object.get(obj);
                     lon = lonV.doubleValue();
-                    System.out.println("Long:  " + lon);
+                    //System.out.println("Long:  " + lon);
                     break;
                 case 4:
                     if (key.equals("vehicles")) {
                         JsonString typeV = (JsonString) object.get(obj);
                         type = typeV.toString();
-                        System.out.println("Type: " + type);
+                        //System.out.println("Type: " + type);
                     }
                     else if (key.equals("hospital")) {
                         JsonNumber bedsV = (JsonNumber) object.get(obj);
                         totalBeds = bedsV.intValue();
-                        System.out.println("Total number of beds:  " + totalBeds);
+                        //System.out.println("Total number of beds:  " + totalBeds);
                     }
                     break;
                 case 5:
                     JsonNumber bedsFV = (JsonNumber)object.get(obj);
                     freeBeds = bedsFV.intValue();
-                    System.out.println("Free number of beds:  " + freeBeds);
+                    //System.out.println("Free number of beds:  " + freeBeds);
                     break;
             }
             i++;
@@ -119,40 +119,40 @@ public class CreatorJSON {
         if (key.equals("medic_center")) {
             //TODO: añadir al constructor name, id y vehiculos????
             MedicCenter newMed = new MedicCenter(lat, lon, name);
-            System.out.println(newMed);
-            System.out.println();
+            //System.out.println(newMed);
+            //System.out.println();
             medicCenters.add(newMed);
         }
         else if (key.equals("hospitals")){
             Hospital newHosp = new Hospital(lat, lon, name, totalBeds, freeBeds);
-            System.out.println(newHosp);
-            System.out.println();
+            //System.out.println(newHosp);
+            //System.out.println();
             hospitals.add(newHosp);
         }
         else if (key.equals("incidents")) {
             Incident newInc = new Incident(lat, lon, gravity);
-            System.out.println(newInc);
-            System.out.println();
+            //System.out.println(newInc);
+            //System.out.println();
             incidents.add(newInc);
         }
         else {
             Vehicle newVehicle = new Vehicle(Type.valueOf("bravo"), name);
-            System.out.println(newVehicle);
-            System.out.println();
+            //System.out.println(newVehicle);
+            //System.out.println();
             vehicles.add(newVehicle);
         }
     }
 
     private void navigateTreeCreateObjects(JsonValue tree, String key) {
         if (key != null) {
-            System.out.print("Key " + key + ": ");
+            //System.out.print("Key " + key + ": ");
             if (key.equals("medic_center") || key.equals("hospitals") || key.equals("vehicles") || key.equals("incidents")) {
                 JsonArray array = (JsonArray) tree;
                 for (JsonValue val : array)
                     getArrayObject(val, key);
             }
             else {
-                System.out.println("OBJECT");
+                //System.out.println("OBJECT");
                 JsonObject object = (JsonObject) tree;
                 for (String name : object.keySet())
                     navigateTreeCreateObjects(object.get(name), name);
