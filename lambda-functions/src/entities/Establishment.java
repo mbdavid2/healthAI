@@ -4,18 +4,16 @@ import java.util.ArrayList;
 
 public class Establishment {
 
-    private int coordX;
-    private int coordY;
+    private int latitude;
+    private int longitude;
 
     private ArrayList<Vehicle> vechicles;
 
-    private int getCoordX () {
-        return coordX;
+    public int getLatitude () {
+        return latitude;
     }
 
-    private int getCoordY () {
-        return coordY;
+    public int getLongitude () {
+        return longitude;
     }
-
-
 }
