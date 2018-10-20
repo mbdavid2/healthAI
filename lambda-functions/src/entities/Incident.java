@@ -4,19 +4,18 @@ enum Level {
     RED, GREEN, BLUE, YELLOW, ORANGE;
 }
 
-
 public class Incident {
 
-    private int latitude;
-    private int longitude;
+    private int lat;
+    private int lon;
 
     private Level gravity;
 
-    public int getLatitude() {
-        return latitude;
+    public int getLat() {
+        return lat;
     }
 
-    public int getLongitude() {
-        return longitude;
+    public int getLon() {
+        return lon;
     }
 }
