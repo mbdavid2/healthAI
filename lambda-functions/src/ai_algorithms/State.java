@@ -1,9 +1,6 @@
 package ai_algorithms;
 
-import entities.Hosp;
-import entities.Incident;
-import entities.MedicCenter;
-import entities.Vehicle;
+import entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,25 +13,72 @@ public class State {
        - It has to implement the state of the problem and its operators
      *
     */
+    static List<Hospital> hospitals;
+    public static List<MedicCenter> medicCenters;
+    List<Vehicle> usedVehicles = new ArrayList<>();
+    List<Incident> servedIncidents = new ArrayList<>();
+    List<Vehicle> unusedVehicles;
+    List<Incident> unservedIncidents;
 
-    private static List<Hosp> hospitals;
-    private static List<MedicCenter> medicCenters;
-    private final List<Vehicle> usedVehicles = new ArrayList<>();
-    private final List<Incident> servedIncidents = new ArrayList<>();
-    private final int NUMBER_OF_VEHICLES;
-    private final int NUMBER_OF_INCIDENTS;
-    private List<Vehicle> unusedVehicles;
-    private List<Incident> unservedIncidents;
-
-    public State(List<Incident> incidents, List<Hosp> hospitals, List<MedicCenter> medicCenters, List<Vehicle> vehicles) {
-        this.unservedIncidents = new ArrayList<>(incidents);
-        State.hospitals = new ArrayList<>(hospitals);
-        State.medicCenters = new ArrayList<>(medicCenters);
-        this.unusedVehicles = new ArrayList<>(vehicles);
-        NUMBER_OF_VEHICLES = unusedVehicles.size();
-        NUMBER_OF_INCIDENTS = unservedIncidents.size();
+    public State(List<Vehicle> vehicles, List<Incident> incidents) {
+        this(new ArrayList<>(), new ArrayList<>(), vehicles, incidents);
     }
 
+    public State(List<Vehicle> usedVehicles, List<Incident> servedIncidents, List<Vehicle> unusedVehicles, List<Incident> unservedIncidents) {
+        this.usedVehicles = new ArrayList<>(usedVehicles);
+        this.servedIncidents = new ArrayList<>(servedIncidents);
+        this.unusedVehicles = new ArrayList<>(unusedVehicles);
+        this.unservedIncidents = new ArrayList<>(unservedIncidents);
+    }
+
+    public State copiar() {
+        return new State(usedVehicles, servedIncidents, unusedVehicles, unservedIncidents);
+    }
+
+    private int number_of_vehicles() {
+        return unusedVehicles.size() + usedVehicles.size();
+    }
+
+    private int number_of_incidents() {
+        return servedIncidents.size() + unservedIncidents.size();
+    }
+
+    public List<Establishment> getEstablisments() {
+        ArrayList<Establishment> t = new ArrayList<Establishment>(medicCenters);
+        t.addAll(hospitals);
+        return t;
+    }
+
+    public void assignVehicleToIncidentAndDestination(Vehicle v, Incident i, Establishment e) {
+        assert(unusedVehicles.contains(v));
+        assert(unservedIncidents.contains(i));
+        if (e.canAffordPacient(i)) {
+            unusedVehicles.remove(v);
+            usedVehicles.add(v);
+            unservedIncidents.remove(i);
+            servedIncidents.add(i);
+            e.placePacient();
+            v.assignIncident(i);
+            v.assignDestination(e);
+        }
+    }
+
+    public void changeDestinationOfUsedIncident(Vehicle v, Establishment e) {
+        assert(usedVehicles.contains(v));
+        if (e.canAffordPacient(v.getIncident())) {
+            v.getDestination().freePacient();
+            v.setDestination(e);
+        }
+    }
+
+    public void swapIncidentOfTwoVehicles(Vehicle v1, Vehicle v2) {
+        assert(v1 != v2);
+        assert(false);
+        Incident incident1 = v1.getIncident();
+        Incident incident2 = v2.getIncident();
+        v1.assignIncident(incident2);
+        v2.assignIncident(incident1);
+    }
 
     /* Heuristic function */
     public int heuristic() {
@@ -46,7 +90,7 @@ public class State {
     }
 
     private double mobilizedVehiclesHeuristic() {
-        return ((double) usedVehicles.size() / (double) NUMBER_OF_VEHICLES + 25.) / 30.;
+        return ((double) usedVehicles.size() / (double) number_of_vehicles() + 25.) / 30.;
     }
 
     private double kmVehiclesHeuristic() {
@@ -54,7 +98,7 @@ public class State {
         for (Vehicle v : usedVehicles) {
             t += v.distance();
         }
-        return t / ((double) NUMBER_OF_VEHICLES * 100.);
+        return t / ((double) number_of_vehicles() * 100.);
     }
 
     private double incidentsHeuristic() {
@@ -68,12 +112,6 @@ public class State {
             t -= x * x;
         }
 
-        return ((double) t / (double) NUMBER_OF_INCIDENTS + 25.) / 30.;
-
-    }
-
-    /* Goal test */
-    public boolean is_goal() {
-        return false;
+        return ((double) t / (double) number_of_incidents() + 25.) / 30.;
     }
 }

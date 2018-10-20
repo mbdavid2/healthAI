@@ -1,10 +1,22 @@
 package entities;
 
-import java.util.ArrayList;
-
 public class MedicCenter extends Establishment {
+    public MedicCenter(int lat, int lon) {
+        super(lat, lon);
+    }
 
-    public MedicCenter(int lat, int lon, ArrayList<Vehicle> vehicles) {
-        super(lat, lon, vehicles);
+    @Override
+    public boolean canAffordPacient(Incident i) {
+        return false;
+    }
+
+    @Override
+    public void placePacient() {
+
+    }
+
+    @Override
+    public void freePacient() {
+
     }
 }

@@ -6,38 +6,40 @@ import java.awt.*;
 public class Vehicle {
     private Type vehicleType;
     private Incident incident;
-    private Point origin;
-    private Point destination;
+    private Establishment origin;
+    private Establishment destination;
 
-    public Vehicle(Type vehicleType, Point origin) {
+    public Vehicle(Type vehicleType, Establishment origin) {
         this.vehicleType = vehicleType;
         this.origin = origin;
     }
 
-    public void setDestination(Point destination) {
+    public void setDestination(Establishment destination) {
         this.destination = destination;
     }
 
     public int getLatitudeOrigin() {
-        return origin.x;
+        return origin.getLatitude();
     }
 
     public int getLongitudeOrigin() {
-        return origin.y;
+        return origin.getLongitude();
     }
 
 
     public int getLatitudeDestination() {
-        return destination.x;
+        return destination.getLatitude();
     }
 
     public int getLongitudeDestination() {
-        return destination.y;
+        return destination.getLongitude();
     }
 
     public void assignIncident(Incident i) {
         this.incident = i;
     }
+
+    public void assignDestination(Establishment e) { this.destination = e;}
 
     public void deattachIncident() {
         this.incident = null;
@@ -45,7 +47,14 @@ public class Vehicle {
 
     public double distance() {
         if (incident == null) return 0;
-        return origin.distance(incident.getLocation()) + incident.getLocation().distance(destination);
+        return origin.getLocation().distance(incident.getLocation()) + incident.getLocation().distance(destination.getLocation());
     }
 
+    public Establishment getDestination() {
+        return destination;
+    }
+
+    public Incident getIncident() {
+        return incident;
+    }
 }

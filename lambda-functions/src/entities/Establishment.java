@@ -1,20 +1,16 @@
 package entities;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Establishment {
+public abstract class Establishment {
 
     private int latitude;
 
     private int longitude;
 
-    private ArrayList<Vehicle> vehicles;
-
-    public Establishment(int lat, int lon, ArrayList<Vehicle> vehicles) {
+    public Establishment(int lat, int lon) {
         this.latitude = lat;
         this.longitude = lon;
-        this.vehicles = vehicles;
     }
 
     public int getLatitude () {
@@ -28,4 +24,8 @@ public class Establishment {
     public Point getLocation() {
         return new Point(latitude, longitude);
     }
+
+    public abstract boolean canAffordPacient(Incident i);
+    public abstract void placePacient();
+    public abstract void freePacient();
 }

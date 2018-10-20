@@ -1,6 +1,9 @@
 package ai_algorithms;
 
 import aima.search.framework.SuccessorFunction;
+import entities.Establishment;
+import entities.Incident;
+import entities.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +12,40 @@ import java.util.List;
  * Created by bejar on 17/01/17
  */
 public class Succesors implements SuccessorFunction {
+    public List getSuccessors(Object o) {
+        ArrayList<State> successors = new ArrayList<>();
+        State state = (State) o;
 
-    public List getSuccessors(Object state) {
-        ArrayList retval = new ArrayList();
-        State board = (State) state;
+        for (Vehicle v : state.unusedVehicles) {
+            for (Incident i : state.unservedIncidents) {
+                for (Establishment e : state.getEstablisments()) {
+                    State copia = state.copiar();
+                    copia.assignVehicleToIncidentAndDestination(v,i,e);
+                    successors.add(copia);
+                }
+            }
+        }
 
-        // Some code here
-        // (flip all the consecutive pairs of coins and generate new states
-        // Add the states to retval as Succesor("flip i j", new_state)
-        // new_state has to be a copy of state
+        for (Vehicle v : state.usedVehicles) {
+            for (Establishment e : state.getEstablisments()) {
+                State copia = state.copiar();
+                copia.changeDestinationOfUsedIncident(v,e);
+                successors.add(copia);
+            }
+        }
 
-        return retval;
+
+        for (Vehicle v1 : state.usedVehicles) {
+            for (Vehicle v2 : state.usedVehicles) {
+                if (v1 != v2) {
+                    State copia = state.copiar();
+                    copia.swapIncidentOfTwoVehicles(v1, v2);
+                    successors.add(copia);
+                }
+            }
+        }
+
+        return successors;
 
     }
 
