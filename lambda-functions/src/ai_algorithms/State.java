@@ -44,6 +44,12 @@ public class State {
         return t;
     }
 
+    public List<Incident> getIncidents() {
+        ArrayList<Incident> t = new ArrayList<>(unservedIncidents);
+        t.addAll(servedIncidents);
+        return t;
+    }
+
     public void assignVehicleToIncidentAndDestination(Vehicle v, Incident i, Establishment e) {
         assert (unusedVehicles.contains(v));
         assert (unservedIncidents.contains(i));
@@ -126,7 +132,7 @@ public class State {
 
 
         var incidences = Json.createObjectBuilder();
-        for (Incident i : servedIncidents) {
+        for (Incident i : getIncidents()) {
             incidences.add(
                     "I-" + i.getId(),
                     Json.createObjectBuilder()
