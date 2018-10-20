@@ -1,3 +1,11 @@
+const INCIDENCE_COLORS = {
+    1: 'red',
+    2: 'orange',
+    3: 'yellow',
+    4: 'green',
+    5: 'blue'
+};
+
 function initMap() {
     TxtOverlay.prototype = new google.maps.OverlayView();
 
@@ -74,25 +82,50 @@ function initMap() {
         }
     };
 
-    // The location of Uluru
-    var uluru = {lat: -25.344, lng: 131.036};
     // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 4, center: uluru,
-            mapTypeId: google.maps.MapTypeId.ROADMAP});
-
     var data = getData();
-    drawCenters(map, data);
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 4, center: {lat: 0, lng: 0},
+            mapTypeId: google.maps.MapTypeId.ROADMAP});
+    let infoWindow = new google.maps.InfoWindow();
+    infoWindow.setMap(map);
+    let bound = new google.maps.LatLngBounds();
+    drawCenters(map, data, bound, infoWindow);
+    drawIncidences(map, data, bound, infoWindow);
     drawRoutes(map, data);
+    map.fitBounds(bound);
 }
 
-function drawCenters(map, data) {
-    let bound = new google.maps.LatLngBounds();
+function drawCenters(map, data, bound, info) {
     for(let [id, center] of Object.entries(data.centers)) {
         let marker = new google.maps.Marker({position: center.position, map: map});
+        marker.addListener('click', ()=>{
+            info.setContent(`Code: <b>${id}</b>`);
+            info.open(map, marker);
+        });
         bound.extend(center.position);
     }
-    map.fitBounds(bound);
+}
+
+function drawIncidences(map, data, bound, info) {
+    for(let [id, incidence] of Object.entries(data.incidences)) {
+        let marker = new google.maps.Marker({
+            position: incidence.position,
+            icon: {
+                fillColor: INCIDENCE_COLORS[incidence.gravity],
+                fillOpacity: 1,
+                scale: 9,
+                strokeWeight: 2,
+                anchor: new google.maps.Point(0,0),
+                path: google.maps.SymbolPath.CIRCLE
+            },
+            map: map});
+        marker.addListener('click', ()=>{
+            info.setContent(`Code: <b>${id}</b><br>Impact: <b style="color: ${INCIDENCE_COLORS[incidence.gravity]}">${incidence.gravity}</b>`);
+            info.open(map, marker);
+        });
+        bound.extend(incidence.position);
+    }
 }
 
 function drawVehicle(map, position, vehicleId, vehicle) {
