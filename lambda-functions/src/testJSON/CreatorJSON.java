@@ -20,7 +20,7 @@ public class CreatorJSON {
     private List<Hospital> hospitals;
     private List<MedicCenter> medicCenters;
     private List<Vehicle> vehicles;
-
+    private List<Incident> incidents;
 
     public CreatorJSON(String filePath) {
         JsonReader reader = null;
@@ -32,6 +32,8 @@ public class CreatorJSON {
         JsonStructure jsonst = reader.read();
         hospitals = new ArrayList<Hospital>();
         medicCenters = new ArrayList<MedicCenter>();
+        vehicles = new ArrayList<Vehicle>();
+        incidents = new ArrayList<Incident>();
         navigateTreeCreateObjects(jsonst, "A.rar");
         //navigatePrintTree(jsonst, "A.rar");
     }
@@ -44,6 +46,15 @@ public class CreatorJSON {
         return medicCenters;
     }
 
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public List<Incident> getIncidents() {
+        return incidents;
+    }
+
+
     private void getArrayObject(JsonValue tree, String key) {
         /*System.out.println("testing");
         return new Hospital(2, 2, 2, 2);*/
@@ -51,15 +62,17 @@ public class CreatorJSON {
         int i = 0;
         double lat = 0, lon = 0;
         int totalBeds = 0, freeBeds = 0;
-        String name = "biene", type = "kachow", id;
+        String name = "lighting", type = "kachow", id = "mcqueen";
         for (String obj : object.keySet()) {
             switch (i) {
                 case 0:
                     //TODO: EL id si es un hospital es un string y si es un medic center es un entero asi que peta, ignoramos de momento
-                    /*JsonString idV = (JsonString) object.get(obj);
-                    id = idV.toString();
-                    System.out.println("test  " + id);*/
-                    System.out.println("Ignoring id");
+                    /*if (!key.equals("create_hospitals")) {
+                        JsonString idV = (JsonString) object.get(obj);
+                        id = idV.toString();
+                        System.out.println("test  " + id);
+                    }
+                    else System.out.println("Ignoring id");*/
                     break;
                 case 1:
                     JsonString nameV = (JsonString) object.get(obj);
@@ -80,9 +93,9 @@ public class CreatorJSON {
                     if (key.equals("vehicles")) {
                         JsonString typeV = (JsonString) object.get(obj);
                         type = typeV.toString();
-                        System.out.println("Type:  " + type);
+                        System.out.println("Type: " + type);
                     }
-                    else {
+                    else if (key.equals("hospital")) {
                         JsonNumber bedsV = (JsonNumber) object.get(obj);
                         totalBeds = bedsV.intValue();
                         System.out.println("Total number of beds:  " + totalBeds);
@@ -97,40 +110,34 @@ public class CreatorJSON {
             i++;
         }
         //All data of the object obtained, create it
-        if (key.equals("create_medic_center")) {
+        if (key.equals("medic_center")) {
             //TODO: añadir al constructor name, id y vehiculos????
-            MedicCenter newMed = new MedicCenter(lat, lon);
+            MedicCenter newMed = new MedicCenter(lat, lon, name);
             System.out.println(newMed);
             System.out.println();
             medicCenters.add(newMed);
         }
-        else if (key.equals("create_hospitals")){
-            Hospital newHosp = new Hospital(lat, lon, totalBeds, freeBeds);
+        else if (key.equals("hospitals")){
+            Hospital newHosp = new Hospital(lat, lon, name, totalBeds, freeBeds);
             System.out.println(newHosp);
             System.out.println();
             hospitals.add(newHosp);
         }
         else {
-            /*Vehicle newVehicle = new Vehicle(Type.valueOf(type), name);
+            Vehicle newVehicle = new Vehicle(Type.valueOf("bravo"), name);
             System.out.println(newVehicle);
             System.out.println();
-            vehicles.add(newVehicle);*/
+            vehicles.add(newVehicle);
         }
     }
 
     private void navigateTreeCreateObjects(JsonValue tree, String key) {
         if (key != null) {
             System.out.print("Key " + key + ": ");
-            if (key.equals("medic_center") || key.equals("hospitals")) {
+            if (key.equals("medic_center") || key.equals("hospitals") || key.equals("vehicles")) {
                 JsonArray array = (JsonArray) tree;
                 for (JsonValue val : array)
-                    getArrayObject(val, "create_" + key);
-            }
-            else if (key.equals("vehicles")) {
-                /*JsonArray array = (JsonArray) tree;
-                for (JsonValue val : array)
-                    navigateTreeCreateObjects(val, null);*/
-                System.out.println("ignoring");
+                    getArrayObject(val, key);
             }
             else {
                 System.out.println("OBJECT");
