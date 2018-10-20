@@ -192,7 +192,7 @@ function drawRoutes(data) {
     for(let route of data.routes) {
         drawRoute(data, route);
         drawVehicle(
-            data.centers[route.originCenter].position,
+            route.origin,
             route.vehicle,
             data.vehicles[route.vehicle]);
     }
@@ -206,9 +206,9 @@ function drawRoutes(data) {
 function drawRoute(data, route) {
     var path = new google.maps.Polyline({
         path: [
-            data.centers[route.originCenter].position,
+            route.origin,
             data.incidences[route.incidence].position,
-            data.centers[route.finalCenter].position
+            route.destination
         ],
         geodesic: true,
         strokeColor: '#FF0000',
@@ -275,7 +275,9 @@ function getData() {
             }
         },
         "routes": [
-            {originCenter: "CENT01", incidence: "INC01", finalCenter: "CENT02", vehicle: "JO9PK", kms: 2.4}
+            {origin:  {
+                lat: 40.3593167, lng: 0.36542039999994813}, incidence: "INC01", destination: {lat: 40.4644537,
+                lng: 0.4500352000000021}, vehicle: "JO9PK", kms: 2.4}
         ]
     };
 }
