@@ -19,7 +19,7 @@ public class Succesors implements SuccessorFunction {
                 for (Establishment e : state.getEstablishments()) {
                     State copia = state.copiar();
                     copia.assignVehicleToIncidentAndDestination(v,i,e);
-                    successors.add(new Successor("ASSIGN VEHICLE", copia));
+                    successors.add(new Successor("ASSIGN VEHICLE: " + v + " to " + i.getLocation(), copia));
                 }
             }
         }
@@ -28,7 +28,7 @@ public class Succesors implements SuccessorFunction {
             for (Establishment e : state.getEstablishments()) {
                 State copia = state.copiar();
                 copia.changeDestinationOfUsedIncident(v,e);
-                successors.add(new Successor("CHANGE DESTINATION", copia));
+                successors.add(new Successor("CHANGE DESTINATION" + v + " to " + e.getLocation(), copia));
             }
         }
 
@@ -38,9 +38,15 @@ public class Succesors implements SuccessorFunction {
                 if (v1 != v2) {
                     State copia = state.copiar();
                     copia.swapIncidentOfTwoVehicles(v1, v2);
-                    successors.add(new Successor("SWAP INCIDENTS", copia));
+                    successors.add(new Successor("SWAP INCIDENTS" + v1 + " and " + v2, copia));
                 }
             }
+        }
+        System.out.println(state.heuristic());
+        System.out.println("dsadadasda");
+        for (Successor s: successors) {
+            System.out.println(((State) s.getState()).heuristic());
+
         }
 
         return successors;
