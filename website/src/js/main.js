@@ -97,7 +97,11 @@ function initMap() {
 
     $('#submitIncidences')
         .removeAttr("hidden")
-        .click(()=>{$('#submitIncidences').remove(); drawData(getData());});
+        .click(()=>{
+            $('#submitIncidences').remove();
+            google.maps.event.clearListeners(map, 'click');
+            drawData(getData());
+        });
 
     map.addListener('click', (event) => {
         if(tempMark) {
@@ -162,7 +166,7 @@ function drawIncidences(data, bound, info) {
             map: map});
         marker.addListener('click', ()=>{
             info.setContent(`Code: <b>${id}</b><br>Impact: <b style="color: ${INCIDENCE_COLORS[incidence.gravity]}">${incidence.gravity}</b>`);
-            info.open(marker);
+            info.open(map, marker);
         });
         bound.extend(incidence.position);
     }
