@@ -1,5 +1,8 @@
 import ai_algorithms.*;
 
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+
 import entities.Hospital;
 import entities.MedicCenter;
 import entities.Vehicle;
@@ -15,10 +18,31 @@ import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 
-public class Main {
+
+
+public class Main implements RequestHandler<String, String> {
 
     public static void main(String[] args) throws Exception {
 
+    }
+
+    private static void printInstrumentation(Properties properties) {
+        for (Object o : properties.keySet()) {
+            String key = (String) o;
+            String property = properties.getProperty(key);
+            System.out.println(key + " : " + property);
+        }
+
+    }
+
+    private static void printActions(List actions) {
+        for (Object action : actions) {
+            System.out.println(action);
+        }
+    }
+
+    @Override
+    public String handleRequest(String s, Context context) {
         //Read contents from JSON file and store the information in the state
         CreatorJSON parser = new CreatorJSON("./lambda-functions/src/testJSON/input.json");
 
@@ -49,31 +73,19 @@ public class Main {
         Search alg = new HillClimbingSearch();
 
         // Instantiate the SearchAgent object
-        SearchAgent agent = new SearchAgent(p, alg);
+        try {
+            SearchAgent agent = new SearchAgent(p, alg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // We print the results of the search
-        System.out.println();
+        // System.out.println();
         // printActions(agent.getActions());
         // printInstrumentation(agent.getInstrumentation());
 
         State goalState = (State) alg.getGoalState();
 
-        System.out.println(goalState.toJsonStr());
+        return goalState.toJsonStr();
     }
-
-    private static void printInstrumentation(Properties properties) {
-        for (Object o : properties.keySet()) {
-            String key = (String) o;
-            String property = properties.getProperty(key);
-            System.out.println(key + " : " + property);
-        }
-
-    }
-
-    private static void printActions(List actions) {
-        for (Object action : actions) {
-            System.out.println(action);
-        }
-    }
-
 }
