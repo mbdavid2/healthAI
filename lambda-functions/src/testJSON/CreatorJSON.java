@@ -60,7 +60,7 @@ public class CreatorJSON {
         JsonObject object = (JsonObject) tree;
         int i = 0;
         double lat = 0, lon = 0;
-        int totalBeds = 0, freeBeds = 0;
+        int totalBeds = 0, freeBeds = 0, gravity = 0;
         String name = "lighting", type = "kachow", id = "mcqueen";
         for (String obj : object.keySet()) {
             switch (i) {
@@ -74,9 +74,16 @@ public class CreatorJSON {
                     else System.out.println("Ignoring id");*/
                     break;
                 case 1:
-                    JsonString nameV = (JsonString) object.get(obj);
-                    name = nameV.toString();
-                    System.out.println("Name:  " + name);
+                    if (key.equals("incidents")) {
+                        JsonNumber gravityV = (JsonNumber) object.get(obj);
+                        gravity = gravityV.intValue();
+                        System.out.println("Gravity:  " + gravity);
+                    }
+                    else {
+                        JsonString nameV = (JsonString) object.get(obj);
+                        name = nameV.toString();
+                        System.out.println("Name:  " + name);
+                    }
                     break;
                 case 2:
                     JsonNumber latV = (JsonNumber) object.get(obj);
@@ -122,6 +129,12 @@ public class CreatorJSON {
             System.out.println();
             hospitals.add(newHosp);
         }
+        else if (key.equals("incidents")) {
+            Incident newInc = new Incident(lat, lon, gravity);
+            System.out.println(newInc);
+            System.out.println();
+            incidents.add(newInc);
+        }
         else {
             Vehicle newVehicle = new Vehicle(Type.valueOf("bravo"), name);
             System.out.println(newVehicle);
@@ -133,7 +146,7 @@ public class CreatorJSON {
     private void navigateTreeCreateObjects(JsonValue tree, String key) {
         if (key != null) {
             System.out.print("Key " + key + ": ");
-            if (key.equals("medic_center") || key.equals("hospitals") || key.equals("vehicles")) {
+            if (key.equals("medic_center") || key.equals("hospitals") || key.equals("vehicles") || key.equals("incidents")) {
                 JsonArray array = (JsonArray) tree;
                 for (JsonValue val : array)
                     getArrayObject(val, key);
