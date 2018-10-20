@@ -1,66 +1,143 @@
 function initMap() {
+    TxtOverlay.prototype = new google.maps.OverlayView();
+
+    TxtOverlay.prototype.onAdd = function() {
+        // Note: an overlay's receipt of onAdd() indicates that
+        // the map's panes are now available for attaching
+        // the overlay to the map via the DOM.
+
+        // Create the DIV and set some basic attributes.
+        var div = document.createElement('DIV');
+        div.className = this.cls_;
+
+        div.innerHTML = this.txt_;
+
+        // Set the overlay's div_ property to this DIV
+        this.div_ = div;
+        var overlayProjection = this.getProjection();
+        var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+        div.style.left = position.x + 'px';
+        div.style.top = position.y + 'px';
+        // We add an overlay to a map via one of the map's panes.
+
+        var panes = this.getPanes();
+        panes.floatPane.appendChild(div);
+    };
+
+    TxtOverlay.prototype.draw = function() {
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the southwest and northeast coordinates of this overlay
+        // in latlngs and convert them to pixels coordinates.
+        // We'll use these coordinates to resize the DIV.
+        var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+
+
+        var div = this.div_;
+        div.style.left = position.x + 'px';
+        div.style.top = position.y + 'px';
+    };
+
+    //Optional: helper methods for removing and toggling the text overlay.
+    TxtOverlay.prototype.onRemove = function() {
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+    };
+
+    TxtOverlay.prototype.hide = function() {
+        if (this.div_) {
+            this.div_.style.visibility = "hidden";
+        }
+    };
+
+    TxtOverlay.prototype.show = function() {
+        if (this.div_) {
+            this.div_.style.visibility = "visible";
+        }
+    };
+
+    TxtOverlay.prototype.toggle = function() {
+        if (this.div_) {
+            if (this.div_.style.visibility === "hidden") {
+                this.show();
+            } else {
+                this.hide();
+            }
+        }
+    };
+
+    TxtOverlay.prototype.toggleDOM = function() {
+        if (this.getMap()) {
+            this.setMap(null);
+        } else {
+            this.setMap(this.map_);
+        }
+    };
+
     // The location of Uluru
     var uluru = {lat: -25.344, lng: 131.036};
     // The map, centered at Uluru
     var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 4, center: uluru});
+        document.getElementById('map'), {zoom: 4, center: uluru,
+            mapTypeId: google.maps.MapTypeId.ROADMAP});
 
     var data = getData();
-    drawHospitals(map, data['hospitals']);
-    drawAmbulances(map, data['ambulances']);
-    drawRoutes(map, data['routes']);
+    drawCenters(map, data);
+    drawRoutes(map, data);
 }
 
-function drawHospitals(map, hospitals) {
-    var bound = new google.maps.LatLngBounds();
-    for(var idx in hospitals) {
-        if(hospitals.hasOwnProperty(idx)) {
-            var hospital = hospitals[idx];
-            var latLng = new google.maps.LatLng(hospital.lat, hospital.long);
-            var marker = new google.maps.Marker({position: latLng, map: map});
-            bound.extend(latLng);
-        }
+function drawCenters(map, data) {
+    let bound = new google.maps.LatLngBounds();
+    for(let [id, center] of Object.entries(data.centers)) {
+        let marker = new google.maps.Marker({position: center.position, map: map});
+        bound.extend(center.position);
     }
     map.fitBounds(bound);
 }
 
-function drawAmbulances(map, ambulances) {
-    for(var idx in ambulances) {
-        if(ambulances.hasOwnProperty(idx)) {
-            var hospital = ambulances[idx];
-            var latLng = new google.maps.LatLng(hospital.lat, hospital.long);
-            var marker = new google.maps.Marker({
-                position: latLng,
-                icon: {
-                    fillColor: '#fff',
-                    fillOpacity: 1,
-                    scale: 0.05,
-                    anchor: new google.maps.Point(320, 256),
-                    path: 'M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm144-248c0 4.4-3.6 8-8 8h-56v56c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-56h-56c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h56v-56c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v56h56c4.4 0 8 3.6 8 8v48zm176 248c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z'
-                },
-                map: map
-            });
-        }
+function drawVehicle(map, position, vehicleId, vehicle) {
+    var marker = new google.maps.Marker({
+        position: position,
+        icon: {
+            fillColor: '#fff',
+            fillOpacity: 1,
+            scale: 0.05,
+            anchor: new google.maps.Point(320, 256),
+            path: 'M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm144-248c0 4.4-3.6 8-8 8h-56v56c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-56h-56c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h56v-56c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v56h56c4.4 0 8 3.6 8 8v48zm176 248c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z'
+        },
+        zIndex: 10,
+        map: map
+    });
+    var txt = new TxtOverlay(new google.maps.LatLng(position), '<b>'+vehicleId+'</b>', 'customBox', map);
+}
+
+/**
+ * @param map
+ * @param {ApiInterface} data
+ */
+function drawRoutes(map, data) {
+    for(let route of data.routes) {
+        drawRoute(map, data, route);
+        drawVehicle(map,
+            data.centers[route.originCenter].position,
+            route.vehicle,
+            data.vehicles[route.vehicle]);
     }
 }
 
-function drawRoutes(map, routes) {
-    for(var idx in routes) {
-        if(routes.hasOwnProperty(idx)) {
-            var route = routes[idx];
-            drawRoute(map, route);
-        }
-    }
-}
-
-function drawRoute(map, route) {
-    var points = route['points'];
-    var list = [];
-    for(var i=0; i < points.length; i++) {
-        list.push(new google.maps.LatLng(points[i][0], points[i][1]));
-    }
+/**
+ *
+ * @param {google.maps.Map} map
+ * @param {ApiInterface} data
+ * @param {RouteInterface} route
+ */
+function drawRoute(map, data, route) {
     var path = new google.maps.Polyline({
-        path: list,
+        path: [
+            data.centers[route.originCenter].position,
+            data.incidences[route.incidence].position,
+            data.centers[route.finalCenter].position
+        ],
         geodesic: true,
         strokeColor: '#FF0000',
         strokeOpacity: 1.0,
@@ -69,115 +146,64 @@ function drawRoute(map, route) {
     path.setMap(map);
 }
 
+//adapded from this example http://code.google.com/apis/maps/documentation/javascript/overlays.html#CustomOverlays
+//text overlays
+function TxtOverlay(pos, txt, cls, map) {
+
+    // Now initialize all properties.
+    this.pos = pos;
+    this.txt_ = txt;
+    this.cls_ = cls;
+    this.map_ = map;
+
+    // We define a property to hold the image's
+    // div. We'll actually create this div
+    // upon receipt of the add() method so we'll
+    // leave it null for now.
+    this.div_ = null;
+
+    // Explicitly call setMap() on this overlay
+    this.setMap(map);
+}
+
+/**
+ * @return {ApiInterface}
+ */
 function getData() {
     return {
-        "routes": [{"points": [
-            [40.741895, -73.989308],
-            [40.3593167,0.36542039999994813],
-            [40.4654987,0.17876569999998537]
-        ]}],
-        "ambulances": [
-            {
-                "name": "Benicarló",
-                "lat": 40.741895,
-                "long": -73.989308,
-                "type": "bravo"
+        "vehicles": {
+            "XR4FM": "bravo",
+            "XJ7OP": "bravo",
+            "JO9PK": "samu"
+        },
+        "centers": {
+            "CENT01":{
+                position: {
+                    lat: 40.3593167,
+                    lng: 0.36542039999994813},
+                type: "hospital",
+                totalBeds: 20,
+                freeBeds: 10
             },
-            {
-                "name": "Peñíscola",
-                "lat": 40.3593167,
-                "long": 0.36542039999994813,
-                "type": "bravo"
-            },
-            {
-                "name": "Sant_Mateo",
-                "lat": 40.4654987,
-                "long": 0.17876569999998537,
-                "type": "samu"
-            },
-            {
-                "name": "Vinaròs",
-                "lat": 40.4644537,
-                "long": 0.4500352000000021,
-                "type": "samu"
-            },
-            {
-                "name": "Vinaròs",
-                "lat": 40.4644537,
-                "long": 0.4500352000000021,
-                "type": "bravo"
-            },
-            {
-                "name": "Traiguera",
-                "lat": 40.5244341,
-                "long": 0.2895942999999761,
-                "type": "tna"
-            },
-            {
-                "name": "Albocàsser",
-                "lat": 40.356701,
-                "long": 0.025070499999969797,
-                "type": "bravo"
-            },
-            {
-                "name": "Morella",
-                "lat": 40.6181387,
-                "long": -0.10154920000002221,
-                "type": "bravo"
-            },
-            {
-                "name": "Vilafranca",
-                "lat": 42.2784669,
-                "long": -1.74536420000004,
-                "type": "samu"
-            },
-            {
-                "name": "Castellón",
-                "lat": 40.002782,
-                "long": -0.04192799999998442,
-                "type": "samu"
-            },
-            {
-                "name": "Castellón",
-                "lat": 40.002782,
-                "long": -0.04192799999998442,
-                "type": "helicoptero"
-            },
-            {
-                "name": "Torreblanca",
-                "lat": 40.2201804,
-                "long": 0.1951318999999785,
-                "type": "samu"
-            },
-            {
-                "name": "Segorbe",
-                "lat": 39.7952118,
-                "long": -0.46910969999998997,
-                "type": "samu"
-            },
-            {
-                "name": "Vall_d_Uixò",
-                "lat": 39.8242386,
-                "long": -0.2315017999999327,
-                "type": "samu"
+            "CENT02":{
+                position: {
+                    lat: 40.4644537,
+                    lng: 0.4500352000000021},
+                type: "hospital",
+                totalBeds: 20,
+                freeBeds: 10
             }
-        ],
-        "hospitals": [
-            {
-                "name": "Vinaròs",
-                "lat": 40.4644537,
-                "long": 0.4500352000000021
-            },
-            {
-                "name": "Sagundo",
-                "lat": 39.67387220000001,
-                "long": -0.2317180999999664
-            },
-            {
-                "name": "Castellón",
-                "lat": 40.002782,
-                "long": -0.04192799999998442
+        },
+        "incidences": {
+            "INC01": {
+                position: {
+                    lat: 40.4654987,
+                    lng: 0.17876569999998537},
+                gravity: 4
             }
+        },
+        "routes": [
+            {originCenter: "CENT01", incidence: "INC01", finalCenter: "CENT02", vehicle: "JO9PK", kms: 2.4}
         ]
     };
 }

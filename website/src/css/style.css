@@ -7,3 +7,16 @@ html, body {
 main#map {
     height: 100%;
 }
+
+.customBox {
+    position: absolute;
+    color: black;
+    font-size: medium;
+    background-color: #fffa;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    width: 5rem;
+    text-align: center;
+    margin-left: -2.5rem;
+    margin-top: 1.25rem;
+}
