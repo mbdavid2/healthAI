@@ -1,18 +1,105 @@
-Benicarló 40.741895,-73.989308 bravo
-Peñíscola 40.3593167,0.36542039999994813 bravo
-Sant_Mateo 40.4654987,0.17876569999998537 samu
-Vinaròs 40.4644537,0.4500352000000021 samu
-Vinaròs 40.4644537,0.4500352000000021 bravo
-Traiguera 40.5244341,0.2895942999999761 tna
-Albocàsser 40.356701,0.025070499999969797 bravo
-Morella 40.6181387,-0.10154920000002221 bravo
-Vilafranca 42.2784669,-1.74536420000004 samu
-Castellón 40.002782,-0.04192799999998442 samu
-Castellón 40.002782,-0.04192799999998442 helicoptero
-Torreblanca 40.2201804,0.1951318999999785 samu
-Segorbe 39.7952118,-0.46910969999998997 samu
-Vall_d_Uixò 39.8242386,-0.2315017999999327 samu
-
-Vinaròs 40.4644537,0.4500352000000021
-Sagunto 39.67387220000001,-0.2317180999999664
-Castellón 40.002782,-0.04192799999998442
+{
+  "ambulances": [
+    {
+      "name": "Benicarló",
+      "lat": 40.741895,
+      "long": -73.989308,
+      "type": "bravo"
+    },
+    {
+      "name": "Peñíscola",
+      "lat": 40.3593167,
+      "long": 0.36542039999994813,
+      "type": "bravo"
+    },
+    {
+      "name": "Sant_Mateo",
+      "lat": 40.4654987,
+      "long": 0.17876569999998537,
+      "type": "samu"
+    },
+    {
+      "name": "Vinaròs",
+      "lat": 40.4644537,
+      "long": 0.4500352000000021,
+      "type": "samu"
+    },
+    {
+      "name": "Vinaròs",
+      "lat": 40.4644537,
+      "long": 0.4500352000000021,
+      "type": "bravo"
+    },
+    {
+      "name": "Traiguera",
+      "lat": 40.5244341,
+      "long": 0.2895942999999761,
+      "type": "tna"
+    },
+    {
+      "name": "Albocàsser",
+      "lat": 40.356701,
+      "long": 0.025070499999969797,
+      "type": "bravo"
+    },
+    {
+      "name": "Morella",
+      "lat": 40.6181387,
+      "long": -0.10154920000002221,
+      "type": "bravo"
+    },
+    {
+      "name": "Vilafranca",
+      "lat": 42.2784669,
+      "long": -1.74536420000004,
+      "type": "samu"
+    },
+    {
+      "name": "Castellón",
+      "lat": 40.002782,
+      "long": -0.04192799999998442,
+      "type": "samu"
+    },
+    {
+      "name": "Castellón",
+      "lat": 40.002782,
+      "long": -0.04192799999998442,
+      "type": "helicoptero"
+    },
+    {
+      "name": "Torreblanca",
+      "lat": 40.2201804,
+      "long": 0.1951318999999785,
+      "type": "samu"
+    },
+    {
+      "name": "Segorbe",
+      "lat": 39.7952118,
+      "long": -0.46910969999998997,
+      "type": "samu"
+    },
+    {
+      "name": "Vall_d_Uixò",
+      "lat": 39.8242386,
+      "long": -0.2315017999999327,
+      "type": "samu"
+    }
+  ],
+  "hospitals": [
+    {
+      "name": "Vinaròs",
+      "lat": 40.4644537,
+      "long": 0.4500352000000021
+    },
+    {
+      "name": "Sagundo",
+      "lat": 39.67387220000001,
+      "long": -0.2317180999999664
+    },
+    {
+      "name": "Castellón",
+      "lat": 40.002782,
+      "long": -0.04192799999998442
+    }
+  ]
+}
