@@ -61,7 +61,7 @@ public class CreatorJSON {
         int i = 0;
         double lat = 0, lon = 0;
         int totalBeds = 0, freeBeds = 0, gravity = 0;
-        String name = "lighting", type = "kachow", id = "mcqueen";
+        String name = "lighting", typeQQ = "kachow", id = "mcqueen";
         for (String obj : object.keySet()) {
             switch (i) {
                 case 0:
@@ -98,7 +98,7 @@ public class CreatorJSON {
                 case 4:
                     if (key.equals("vehicles")) {
                         JsonString typeV = (JsonString) object.get(obj);
-                        type = typeV.toString();
+                        typeQQ = typeV.toString();
                         //System.out.println("Type: " + type);
                     }
                     else if (key.equals("hospital")) {
@@ -136,7 +136,14 @@ public class CreatorJSON {
             incidents.add(newInc);
         }
         else {
-            Vehicle newVehicle = new Vehicle(Type.valueOf("bravo"), name);
+            Vehicle newVehicle;
+            if (typeQQ.equals("bravo"))
+                newVehicle = new Vehicle(Type.valueOf("bravo"), name);
+            else if (typeQQ.equals("samu"))
+                newVehicle = new Vehicle(Type.valueOf("samu"), name);
+            else if (typeQQ.equals("tna"))
+                newVehicle = new Vehicle(Type.valueOf("tna"), name);
+            else newVehicle = new Vehicle(Type.valueOf("helicoptero"), name);
             //System.out.println(newVehicle);
             //System.out.println();
             vehicles.add(newVehicle);
