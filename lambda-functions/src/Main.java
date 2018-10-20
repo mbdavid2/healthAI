@@ -3,15 +3,14 @@ import ai_algorithms.*;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import data.CenterFinder;
+import data.IncidentFinder;
+import data.VehicleFinder;
 import entities.Hospital;
 import entities.MedicCenter;
 import entities.Vehicle;
 
-import testJSON.CreatorJSON;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
@@ -23,7 +22,7 @@ import aima.search.informed.HillClimbingSearch;
 public class Main implements RequestHandler<String, String> {
 
     public static void main(String[] args) throws Exception {
-
+        (new Main()).handleRequest("", null);
     }
 
     private static void printInstrumentation(Properties properties) {
@@ -43,18 +42,24 @@ public class Main implements RequestHandler<String, String> {
 
     @Override
     public String handleRequest(String s, Context context) {
-        //Read contents from JSON file and store the information in the state
-        CreatorJSON parser = new CreatorJSON("./lambda-functions/src/testJSON/input.json");
+        List<Vehicle> vehicles = VehicleFinder.findVehicles();
+        List<Hospital> hospitals = CenterFinder.findHospitals();
+        List<MedicCenter> medicCenters = CenterFinder.findMedicCenters();
 
-        ArrayList<Vehicle> vehicles = parser.getVehicles();
-        ArrayList<Hospital> hospitals = parser.getHospitals();
-        ArrayList<MedicCenter> medicCenters = parser.getMedicCenters();
 
+        Random r = new Random();
         for (Vehicle v: vehicles) {
-            v.setEstablishmentOrigin(hospitals, medicCenters);
+            System.out.println(v.getVehicleType());
+            if(r.nextBoolean()) {
+                // random hospital
+                v.setOrigin(hospitals.get(r.nextInt(hospitals.size())));
+            } else {
+                // random medic center
+                v.setOrigin(medicCenters.get(r.nextInt(medicCenters.size())));
+            }
         }
 
-        State problemState = new State(vehicles, parser.getIncidents());
+        State problemState = new State(vehicles, IncidentFinder.findIncidents());
 
         State.hospitals = hospitals;
         State.medicCenters = medicCenters;
@@ -73,18 +78,21 @@ public class Main implements RequestHandler<String, String> {
         Search alg = new HillClimbingSearch();
 
         // Instantiate the SearchAgent object
+        SearchAgent agent = null;
         try {
-            SearchAgent agent = new SearchAgent(p, alg);
+             agent = new SearchAgent(p, alg);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // We print the results of the search
         // System.out.println();
-        // printActions(agent.getActions());
-        // printInstrumentation(agent.getInstrumentation());
+        printActions(agent.getActions());
+        printInstrumentation(agent.getInstrumentation());
 
         State goalState = (State) alg.getGoalState();
+
+        System.out.println(goalState.toJsonStr());
 
         return goalState.toJsonStr();
     }

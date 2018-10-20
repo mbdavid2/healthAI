@@ -29,7 +29,23 @@ public class State {
     }
 
     public State copiar() {
-        return new State(usedVehicles, servedIncidents, unusedVehicles, unservedIncidents);
+        ArrayList<Vehicle> copiaUsed = new ArrayList<>();
+        for(Vehicle vehicle: usedVehicles) {
+            copiaUsed.add(vehicle.copy());
+        }
+        ArrayList<Vehicle> copiaUnused = new ArrayList<>();
+        for(Vehicle vehicle: unusedVehicles) {
+            copiaUnused.add(vehicle.copy());
+        }
+        ArrayList<Incident> copiaServed = new ArrayList<>();
+        for(Incident incident: servedIncidents) {
+            copiaServed.add(incident.copy());
+        }
+        ArrayList<Incident> copiaUnserved = new ArrayList<>();
+        for(Incident incident: unservedIncidents) {
+            copiaUnserved.add(incident.copy());
+        }
+        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved);
     }
 
     private int number_of_vehicles() {
@@ -71,12 +87,12 @@ public class State {
         if (e.canAffordPacient(v.getIncident())) {
             v.getDestination().freePacient();
             v.setDestination(e);
+            e.placePacient();
         }
     }
 
     public void swapIncidentOfTwoVehicles(Vehicle v1, Vehicle v2) {
         assert (v1 != v2);
-        assert (false);
         Incident incident1 = v1.getIncident();
         Incident incident2 = v2.getIncident();
         v1.assignIncident(incident2);
@@ -88,7 +104,8 @@ public class State {
         double a = incidentsHeuristic();
         double b = kmVehiclesHeuristic();
         double c = mobilizedVehiclesHeuristic();
-        return (int) (100000.d * (3 * a - b - c));
+        double res = 3 * a - b - c;
+        return (int) (10000. * res);
 
     }
 
@@ -112,10 +129,10 @@ public class State {
 
         for (Incident i : unservedIncidents) {
             int x = 6 - i.getGravity();
-            t -= x * x;
+            t -= Math.pow(x, 1.5);
         }
 
-        return ((double) t / (double) number_of_incidents() + 25.) / 30.;
+        return ((double) t / 8.0 * (double) number_of_incidents()) + 0.5;
     }
 
     public String toJsonStr() {

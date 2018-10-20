@@ -15,10 +15,18 @@ public class Incident {
     private int id;
 
     public Incident(double latitude, double longitude, int gravity) {
+        this(latitude, longitude, gravity, ID_COUNTER++);
+    }
+
+    public Incident(double latitude, double longitude, int gravity, int id) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.gravity = gravity;
-        this.id = ID_COUNTER++;
+        this.id = id;
+    }
+
+    public Incident copy() {
+        return new Incident(latitude, longitude, gravity);
     }
 
     public int getGravity() {
