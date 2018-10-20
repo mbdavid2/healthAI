@@ -51,15 +51,17 @@ public class CreatorJSON {
         int i = 0;
         double lat = 0, lon = 0;
         int totalBeds = 0, freeBeds = 0;
-        String name = "biene", type = "kachow", id;
+        String name = "lighting", type = "kachow", id = "mcqueen";
         for (String obj : object.keySet()) {
             switch (i) {
                 case 0:
                     //TODO: EL id si es un hospital es un string y si es un medic center es un entero asi que peta, ignoramos de momento
-                    /*JsonString idV = (JsonString) object.get(obj);
-                    id = idV.toString();
-                    System.out.println("test  " + id);*/
-                    System.out.println("Ignoring id");
+                    /*if (!key.equals("create_hospitals")) {
+                        JsonString idV = (JsonString) object.get(obj);
+                        id = idV.toString();
+                        System.out.println("test  " + id);
+                    }
+                    else System.out.println("Ignoring id");*/
                     break;
                 case 1:
                     JsonString nameV = (JsonString) object.get(obj);
@@ -99,22 +101,22 @@ public class CreatorJSON {
         //All data of the object obtained, create it
         if (key.equals("create_medic_center")) {
             //TODO: añadir al constructor name, id y vehiculos????
-            MedicCenter newMed = new MedicCenter(lat, lon);
+            MedicCenter newMed = new MedicCenter(lat, lon, name);
             System.out.println(newMed);
             System.out.println();
             medicCenters.add(newMed);
         }
         else if (key.equals("create_hospitals")){
-            Hospital newHosp = new Hospital(lat, lon, totalBeds, freeBeds);
+            Hospital newHosp = new Hospital(lat, lon, name, totalBeds, freeBeds);
             System.out.println(newHosp);
             System.out.println();
             hospitals.add(newHosp);
         }
         else {
-            /*Vehicle newVehicle = new Vehicle(Type.valueOf(type), name);
+            Vehicle newVehicle = new Vehicle(Type.valueOf(type), id);
             System.out.println(newVehicle);
             System.out.println();
-            vehicles.add(newVehicle);*/
+            vehicles.add(newVehicle);
         }
     }
 

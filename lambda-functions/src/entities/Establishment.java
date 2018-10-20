@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class Establishment {
 
@@ -8,7 +9,10 @@ public abstract class Establishment {
 
     private double longitude;
 
-    public Establishment(double lat, double lon) {
+    private String name;
+
+    public Establishment(double lat, double lon, String name) {
+        this.name = name;
         this.latitude = lat;
         this.longitude = lon;
     }
@@ -21,9 +25,9 @@ public abstract class Establishment {
         return longitude;
     }
 
-    /*public Point getLocation() {
-        return new Point(latitude, longitude);
-    }*/
+    public Point2D.Double getLocation() {
+        return new Point2D.Double(latitude, longitude);
+    }
 
     public abstract boolean canAffordPacient(Incident i);
     public abstract void placePacient();

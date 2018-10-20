@@ -1,8 +1,8 @@
 package entities;
 
 public class MedicCenter extends Establishment {
-    public MedicCenter(double lat, double lon) {
-        super(lat, lon);
+    public MedicCenter(double lat, double lon, String name) {
+        super(lat, lon, name);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Incident {
 
@@ -28,7 +29,7 @@ public class Incident {
         return longitude;
     }
 
-    /*public Point getLocation() {
-        return new Point(latitude, longitude);
-    }*/
+    public Point2D.Double getLocation() {
+        return new Point2D.Double(latitude, longitude);
+    }
 }

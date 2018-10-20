@@ -6,16 +6,24 @@ import java.awt.*;
 public class Vehicle {
     private Type vehicleType;
     private Incident incident;
+    private String establishment;
     private Establishment origin;
     private Establishment destination;
 
-    public Vehicle(Type vehicleType, Establishment origin) {
+    public Vehicle(Type vehicleType, String establishmentName) {
         this.vehicleType = vehicleType;
-        this.origin = origin;
+        this.establishment = establishmentName;
+        this.origin = null;
     }
 
     public void setDestination(Establishment destination) {
         this.destination = destination;
+    }
+
+    public void setEstablishmentOrigin() {
+        //Tenemos el string del lugar, ahora que los lugares ya estan guardados, lo buscamos y apuntamos aquí al objeto
+        //para saber la localización. Esto se debe hacer una vez el JSON ha sido parseado
+
     }
 
     public double getLatitudeOrigin() {
@@ -45,10 +53,10 @@ public class Vehicle {
         this.incident = null;
     }
 
-    /*public double distance() {
+    public double distance() {
         if (incident == null) return 0;
         return origin.getLocation().distance(incident.getLocation()) + incident.getLocation().distance(destination.getLocation());
-    }*/
+    }
 
     public Establishment getDestination() {
         return destination;
