@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        State board = new State(prob, sol);
+        /*State board = new State(prob, sol);
 
         // Create the Problem object
         Problem p = new Problem(board,
@@ -37,7 +37,7 @@ public class Main {
 
         // You can access also to the goal state using the
         // method getGoalState of class Search
-
+*/
     }
 
     private static void printInstrumentation(Properties properties) {

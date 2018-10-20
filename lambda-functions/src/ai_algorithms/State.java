@@ -1,6 +1,6 @@
 package ai_algorithms;
 
-import entities.Hospital;
+import entities.Hosp;
 import entities.Incident;
 import entities.MedicCenter;
 import entities.Vehicle;
@@ -17,7 +17,7 @@ public class State {
      *
     */
 
-    private static List<Hospital> hospitals;
+    private static List<Hosp> hospitals;
     private static List<MedicCenter> medicCenters;
     private final List<Vehicle> usedVehicles = new ArrayList<>();
     private final List<Incident> servedIncidents = new ArrayList<>();
@@ -26,7 +26,7 @@ public class State {
     private List<Vehicle> unusedVehicles;
     private List<Incident> unservedIncidents;
 
-    public State(List<Incident> incidents, List<Hospital> hospitals, List<MedicCenter> medicCenters, List<Vehicle> vehicles) {
+    public State(List<Incident> incidents, List<Hosp> hospitals, List<MedicCenter> medicCenters, List<Vehicle> vehicles) {
         this.unservedIncidents = new ArrayList<>(incidents);
         State.hospitals = new ArrayList<>(hospitals);
         State.medicCenters = new ArrayList<>(medicCenters);

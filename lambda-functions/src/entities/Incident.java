@@ -2,7 +2,6 @@ package entities;
 
 import java.awt.*;
 
-
 public class Incident {
 
     private int latitude;
@@ -10,6 +9,12 @@ public class Incident {
 
     // 1: important -> 5: not important
     private int gravity;
+
+    public Incident(int latitude, int longitude, int gravity) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.gravity = gravity;
+    }
 
     public int getGravity() {
         return gravity;
