@@ -104,19 +104,25 @@
       "id": "VIN",
       "name": "Vinaròs",
       "lat": 40.4644537,
-      "lon": 0.4500352000000021
+      "lon": 0.4500352000000021,
+      "totalBeds": 10,
+      "freeBeds": 3
     },
     {
       "id": "SAG",
       "name": "Sagundo",
       "lat": 39.67387220000001,
-      "lon": -0.2317180999999664
+      "lon": -0.2317180999999664,
+      "totalBeds": 6,
+      "freeBeds": 4
     },
     {
       "id": "CAS",
       "name": "Castellón",
       "lat": 40.002782,
-      "lon": -0.04192799999998442
+      "lon": -0.04192799999998442,
+      "totalBeds": 20,
+      "freeBeds": 5
     }
   ],
   "medic_center": [
