@@ -1,11 +1,16 @@
 package entities;
 
+enum Type {
+    bravo, samu, tna, helicoptero;
+}
+
+
 public class Vehicle {
 
-    private int typeTemporal;
+    private Type vehicleType;
 
-    private int getType () {
-        return typeTemporal;
+    public Type getVehicleTypee () {
+        return vehicleType;
     }
 
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Establishment {
 
+
+
     private int latitude;
     private int longitude;
 
