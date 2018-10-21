@@ -46,7 +46,7 @@ public class State {
         this.medicCenters = medicCenters;
     }
 
-    public State copiar() {
+    public State copy() {
         ArrayList<Vehicle> copiaUsed = new ArrayList<>();
         for(Vehicle vehicle: usedVehicles) {
             copiaUsed.add(vehicle.copy());
@@ -63,7 +63,7 @@ public class State {
         for(Incident incident: unservedIncidents) {
             copiaUnserved.add(incident.copy());
         }
-        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved);
+        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved, hospitals, medicCenters);
     }
 
     private int number_of_vehicles() {

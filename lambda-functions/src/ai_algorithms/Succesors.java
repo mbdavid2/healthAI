@@ -17,7 +17,7 @@ public class Succesors implements SuccessorFunction {
         for (Vehicle v : state.unusedVehicles) {
             for (Incident i : state.unservedIncidents) {
                 for (Establishment e : state.getEstablishments()) {
-                    State copia = state.copiar();
+                    State copia = state.copy();
                     copia.assignVehicleToIncidentAndDestination(v,i,e);
                     successors.add(new Successor("ASSIGN VEHICLE: " + v + " to " + i.getLocation() + "  -> " + i, copia));
                 }
@@ -26,7 +26,7 @@ public class Succesors implements SuccessorFunction {
 
         for (Vehicle v : state.usedVehicles) {
             for (Establishment e : state.getEstablishments()) {
-                State copia = state.copiar();
+                State copia = state.copy();
                 copia.changeDestinationOfUsedIncident(v,e);
                 successors.add(new Successor("CHANGE DESTINATION" + v + " to " + e.getLocation(), copia));
             }
@@ -36,7 +36,7 @@ public class Succesors implements SuccessorFunction {
         for (Vehicle v1 : state.usedVehicles) {
             for (Vehicle v2 : state.usedVehicles) {
                 if (v1 != v2) {
-                    State copia = state.copiar();
+                    State copia = state.copy();
                     copia.swapIncidentOfTwoVehicles(v1, v2);
                     successors.add(new Successor("SWAP INCIDENTS" + v1 + " and " + v2, copia));
                 }
