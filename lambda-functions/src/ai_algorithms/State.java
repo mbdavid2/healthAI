@@ -164,28 +164,14 @@ public class State {
         for (Vehicle v : unusedVehicles) {
             vehicles.add("V-" + v.getId(), v.getVehicleType().toString());
         }
-
         JsonObjectBuilder centers = Json.createObjectBuilder();
         for (Establishment c : getEstablishments()) {
             centers.add("C-" + c.getId(), c.toJson());
         }
-
-
         JsonObjectBuilder incidences = Json.createObjectBuilder();
         for (Incident i : getIncidents()) {
-            incidences.add(
-                    "I-" + i.getId(),
-                    Json.createObjectBuilder()
-                            .add("position", Json.createObjectBuilder()
-                                    .add("lat", i.getLatitude())
-                                    .add("lng", i.getLongitude())
-                                    .build()
-                            )
-                            .add("gravity", i.getGravity())
-                            .build()
-            );
+            incidences.add("I-" + i.getId(), i.toJson());
         }
-
         JsonArrayBuilder routes = Json.createArrayBuilder();
         for (Vehicle v : usedVehicles) {
             routes.add(Json.createObjectBuilder()

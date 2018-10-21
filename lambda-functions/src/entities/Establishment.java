@@ -2,7 +2,6 @@ package entities;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 

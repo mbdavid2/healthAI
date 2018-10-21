@@ -1,5 +1,7 @@
 package entities;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Objects;
@@ -48,6 +50,17 @@ public class Incident {
 
     public int getId() {
         return this.id;
+    }
+
+    public JsonObject toJson() {
+        return Json.createObjectBuilder()
+                .add("position", Json.createObjectBuilder()
+                        .add("lat", this.getLatitude())
+                        .add("lng", this.getLongitude())
+                        .build()
+                )
+                .add("gravity", this.getGravity())
+                .build();
     }
 
     @Override
