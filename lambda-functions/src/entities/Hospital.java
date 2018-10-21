@@ -12,6 +12,11 @@ public class Hospital extends Establishment {
     public Hospital(double lat, double lon, String name, int numBeds, int freeBeds) {
         super(lat, lon, name);
         this.freeBeds = freeBeds;
+        this.numBeds = numBeds;
+    }
+
+    public Hospital copy() {
+        return new Hospital(getLatitude(), getLongitude(), getName(), numBeds, freeBeds);
     }
 
     public int getFreeBeds() {
@@ -20,7 +25,7 @@ public class Hospital extends Establishment {
 
     @Override
     public boolean canAffordPacient(Incident i) {
-        return freeBeds >= 0;
+        return freeBeds > 0;
     }
 
     public void placePacient() {

@@ -4,6 +4,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 public abstract class Establishment {
 
@@ -49,6 +50,20 @@ public abstract class Establishment {
 
     public abstract int getNumBeds();
     public abstract int getFreeBeds();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Establishment that = (Establishment) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 
     public JsonObject toJson() {
         return Json.createObjectBuilder()

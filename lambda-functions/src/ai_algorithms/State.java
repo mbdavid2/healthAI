@@ -63,7 +63,11 @@ public class State {
         for(Incident incident: unservedIncidents) {
             copiaUnserved.add(incident.copy());
         }
-        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved, hospitals, medicCenters);
+        ArrayList<Hospital> copiaHospitals = new ArrayList<>();
+        for(Hospital hospital: hospitals) {
+            copiaHospitals.add(hospital.copy());
+        }
+        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved, copiaHospitals, medicCenters);
     }
 
     private int number_of_vehicles() {
@@ -90,7 +94,6 @@ public class State {
         assert (unusedVehicles.contains(v));
         assert (unservedIncidents.contains(i));
         if (e.canAffordPacient(i)) {
-            //System.out.println(v + " ha entrat amb " + i);
             unusedVehicles.remove(v);
             usedVehicles.add(v);
             unservedIncidents.remove(i);
@@ -111,7 +114,6 @@ public class State {
     }
 
     public void swapIncidentOfTwoVehicles(Vehicle v1, Vehicle v2) {
-        assert (v1 != v2);
         Incident incident1 = v1.getIncident();
         Incident incident2 = v2.getIncident();
         v1.assignIncident(incident2);
@@ -123,13 +125,12 @@ public class State {
         double a = incidentsHeuristic();
         double b = kmVehiclesHeuristic();
         double c = mobilizedVehiclesHeuristic();
-        double res = 3 * a - b - c;
-        return (int) (10000. * res);
-
+        double res = 4 * a - b - c;
+        return (int) (-10000. * res);
     }
 
     private double mobilizedVehiclesHeuristic() {
-        return ((double) usedVehicles.size() / (double) number_of_vehicles() + 25.) / 30.;
+        return (usedVehicles.size() / (double) number_of_vehicles() + 25.) / 30.;
     }
 
     private double kmVehiclesHeuristic() {
@@ -137,7 +138,7 @@ public class State {
         for (Vehicle v : usedVehicles) {
             t += v.distance();
         }
-        return t / ((double) number_of_vehicles() * 100.);
+        return t / (number_of_vehicles() * 100.);
     }
 
     private double incidentsHeuristic() {
@@ -147,11 +148,12 @@ public class State {
         }
 
         for (Incident i : unservedIncidents) {
-            int x = 6 - i.getGravity();
-            t -= Math.pow(x, 1.5);
+            t -= 2*(6 - i.getGravity());
         }
 
-        return ((double) t / 8.0 * (double) number_of_incidents()) + 0.5;
+        // [-10n, 5n]
+        int n = number_of_incidents();
+        return  (t + 10*n) / (15.0*n);
     }
 
     public String toJsonStr() {

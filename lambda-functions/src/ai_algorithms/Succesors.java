@@ -6,6 +6,7 @@ import entities.Establishment;
 import entities.Incident;
 import entities.Vehicle;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +43,17 @@ public class Succesors implements SuccessorFunction {
                 }
             }
         }
-        /* System.out.println(state.heuristic());
-        for (Successor s: successors) {
-            System.out.println(" -->" + ((State) s.getState()).heuristic());
-        } */
+
+//        System.out.println(state.getEstablishments().size());
+//        System.out.println(state.getHospitals().size());
+//        System.out.println(state.getMedicCenters().size());
+//        System.out.println(state.usedVehicles.size());
+//        System.out.println(state.unusedVehicles.size());
+//        System.out.println("=====================================================");
+//        System.out.println(state.heuristic());
+//        for (Successor s: successors) {
+//            System.out.println(" -->" + ((State) s.getState()).heuristic());
+//        }
 
         return successors;
 

@@ -49,7 +49,7 @@ public class Main implements RequestHandler<String, String> {
 
         Random r = new Random();
         for (Vehicle v: vehicles) {
-            System.out.println(v.getVehicleType());
+//            System.out.println(v.getVehicleType());
             if(r.nextBoolean()) {
                 // random hospital
                 v.setOrigin(hospitals.get(r.nextInt(hospitals.size())));
@@ -84,12 +84,12 @@ public class Main implements RequestHandler<String, String> {
 
         // We print the results of the search
         // System.out.println();
-        printActions(agent.getActions());
-        printInstrumentation(agent.getInstrumentation());
+        // printActions(agent.getActions());
+        // printInstrumentation(agent.getInstrumentation());
 
         State goalState = (State) alg.getGoalState();
 
-        System.out.println(goalState.toJsonStr());
+        // System.out.println(goalState.toJsonStr());
 
         return goalState.toJsonStr();
     }

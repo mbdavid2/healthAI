@@ -13,7 +13,7 @@ public abstract class IncidentFinder {
             new Incident(40.419347, 0.419117, 1),
             new Incident(40.4244537, 0.49003520000000021, 3),
             new Incident(40.3244537,0.440035200000021, 4),
-            new Incident(40.3244537, 0.4400352000000021,4)
+            new Incident(40.3244537, 0.4400352000000021,5)
         );
     }
 
