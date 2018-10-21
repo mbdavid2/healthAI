@@ -29,7 +29,7 @@ public class Incident {
     }
 
     public Incident copy() {
-        return new Incident(latitude, longitude, gravity);
+        return new Incident(latitude, longitude, gravity, id);
     }
 
     public int getGravity() {

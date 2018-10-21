@@ -19,10 +19,10 @@ import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 
-public class Main implements RequestHandler<String, String> {
+public class Main implements RequestHandler<Map<String, Object>, String> {
 
     public static void main(String[] args) throws Exception {
-        (new Main()).handleRequest("", null);
+        System.out.println((new Main()).handleRequest(new HashMap<>(), null));
     }
 
     private static void printInstrumentation(Properties properties) {
@@ -41,11 +41,10 @@ public class Main implements RequestHandler<String, String> {
     }
 
     @Override
-    public String handleRequest(String s, Context context) {
+    public String handleRequest(Map<String, Object> in, Context context) {
         List<Vehicle> vehicles = VehicleFinder.findVehicles();
         List<Hospital> hospitals = CenterFinder.findHospitals();
         List<MedicCenter> medicCenters = CenterFinder.findMedicCenters();
-
 
         Random r = new Random();
         for (Vehicle v: vehicles) {
