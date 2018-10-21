@@ -90,6 +90,6 @@ public class Main implements RequestHandler<Map<String, Object>, String> {
 
         // System.out.println(goalState.toJsonStr());
 
-        return "";//goalState.toJsonStr();
+        return goalState.toJsonStr();
     }
 }
