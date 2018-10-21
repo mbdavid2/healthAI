@@ -51,7 +51,7 @@ public class Succesors implements SuccessorFunction {
 //        System.out.println(state.usedVehicles.size());
 //        System.out.println(state.unusedVehicles.size());
 //        System.out.println("=====================================================");
-         System.out.println(state.heuristic());
+//          System.out.println(state.heuristic());
 //        for (Successor s: successors) {
 //            System.out.println(" -->" + ((State) s.getState()).heuristic());
 //        }
