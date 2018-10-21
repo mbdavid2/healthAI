@@ -1,5 +1,7 @@
 package entities;
 
+import ai_algorithms.State;
+
 import java.util.Objects;
 
 public class Vehicle {
@@ -36,7 +38,31 @@ public class Vehicle {
         this.destination = destination;
     }
 
-    public Vehicle copy() {
+    public Vehicle copy(State state) {
+        if(incident != null) {
+            for(Incident next: state.getIncidents()) {
+                if(next.getId() == incident.getId()) {
+                    incident = next;
+                    break;
+                }
+            }
+        }
+        if(origin != null) {
+            for (Establishment next : state.getEstablishments()) {
+                if (next.getId() == origin.getId()) {
+                    origin = next;
+                    break;
+                }
+            }
+        }
+        if(destination != null) {
+            for (Establishment next : state.getEstablishments()) {
+                if (next.getId() == destination.getId()) {
+                    destination = next;
+                    break;
+                }
+            }
+        }
         return new Vehicle(vehicleType, id, incident, origin, destination);
     }
 

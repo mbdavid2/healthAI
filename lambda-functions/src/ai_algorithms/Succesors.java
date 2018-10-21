@@ -15,31 +15,32 @@ public class Succesors implements SuccessorFunction {
         ArrayList<Successor> successors = new ArrayList<>();
         State state = (State) o;
 
-        for (Vehicle v : state.unusedVehicles) {
-            for (Incident i : state.unservedIncidents) {
-                for (Establishment e : state.getEstablishments()) {
-                    State copia = state.copy();
+        State copia = state.copy();
+        for (Vehicle v : copia.unusedVehicles) {
+            for (Incident i : copia.unservedIncidents) {
+                for (Establishment e : copia.getEstablishments()) {
                     copia.assignVehicleToIncidentAndDestination(v,i,e);
                     successors.add(new Successor("ASSIGN VEHICLE: " + v + " to " + i.getLocation() + "  -> " + i, copia));
+                    copia = state.copy();
                 }
             }
         }
 
-        for (Vehicle v : state.usedVehicles) {
-            for (Establishment e : state.getEstablishments()) {
-                State copia = state.copy();
+        for (Vehicle v : copia.usedVehicles) {
+            for (Establishment e : copia.getEstablishments()) {
                 copia.changeDestinationOfUsedIncident(v,e);
                 successors.add(new Successor("CHANGE DESTINATION" + v + " to " + e.getLocation(), copia));
+                copia = state.copy();
             }
         }
 
 
-        for (Vehicle v1 : state.usedVehicles) {
-            for (Vehicle v2 : state.usedVehicles) {
+        for (Vehicle v1 : copia.usedVehicles) {
+            for (Vehicle v2 : copia.usedVehicles) {
                 if (v1 != v2) {
-                    State copia = state.copy();
                     copia.swapIncidentOfTwoVehicles(v1, v2);
                     successors.add(new Successor("SWAP INCIDENTS" + v1 + " and " + v2, copia));
+                    copia = state.copy();
                 }
             }
         }
@@ -50,7 +51,7 @@ public class Succesors implements SuccessorFunction {
 //        System.out.println(state.usedVehicles.size());
 //        System.out.println(state.unusedVehicles.size());
 //        System.out.println("=====================================================");
-//         System.out.println(state.heuristic());
+         System.out.println(state.heuristic());
 //        for (Successor s: successors) {
 //            System.out.println(" -->" + ((State) s.getState()).heuristic());
 //        }
