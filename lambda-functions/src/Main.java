@@ -61,8 +61,8 @@ public class Main implements RequestHandler<String, String> {
 
         State problemState = new State(vehicles, IncidentFinder.findIncidents());
 
-        State.hospitals = hospitals;
-        State.medicCenters = medicCenters;
+        /*problemState.setHospitals(hospitals);
+        problemState.setMedicCenters(medicCenters);*/
 
         /*System.out.println(problemState.hospitals);
         System.out.println(problemState.medicCenters);

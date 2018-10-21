@@ -19,7 +19,7 @@ public class Succesors implements SuccessorFunction {
                 for (Establishment e : state.getEstablishments()) {
                     State copia = state.copiar();
                     copia.assignVehicleToIncidentAndDestination(v,i,e);
-                    successors.add(new Successor("ASSIGN VEHICLE: " + v + " to " + i.getLocation(), copia));
+                    successors.add(new Successor("ASSIGN VEHICLE: " + v + " to " + i.getLocation() + "  -> " + i, copia));
                 }
             }
         }
