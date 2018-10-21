@@ -1,0 +1,38 @@
+{
+  "vehicles": {
+    "XR4FM": "helicopter",
+    "XJ7OP": "helicopter",
+    "JO9PK": "helicopter"
+  },
+  "centers": {
+    "CENT01":{
+      "position": {
+        "lat": 40.3593167,
+        "lng": 0.36542039999994813},
+      "type": "hospital",
+      "totalBeds": 20,
+      "freeBeds": 10
+    },
+    "CENT02":{
+      "position": {
+        "lat": 40.4644537,
+        "lng": 0.4500352000000021},
+      "type": "hospital",
+      "totalBeds": 20,
+      "freeBeds": 10
+    }
+  },
+  "incidences": {
+    "INC01": {
+      "position": {
+        "lat": 40.4654987,
+        "lng": 0.17876569999998537},
+      "gravity": 4
+    }
+  },
+  "routes": [
+    {"origin":  {
+      "lat": 40.3593167, "lng": 0.36542039999994813}, "incidence": "INC01", "destination": {"lat": 40.4644537,
+      "lng": 0.4500352000000021}, "vehicle": "JO9PK", "kms": 2.4}
+  ]
+}
