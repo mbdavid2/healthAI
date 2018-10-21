@@ -12,6 +12,11 @@ import entities.Hospital;
 import entities.MedicCenter;
 import entities.Vehicle;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import aima.search.framework.Problem;
@@ -90,6 +95,21 @@ public class Main implements RequestHandler<Map<String, Object>, String> {
 
         // System.out.println(goalState.toJsonStr());
 
-        return goalState.toJsonStr();
+        String test = goalState.toJsonStr();
+
+        try {
+            setVariable(289, test);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return test;
+    }
+
+    public static void setVariable(int lineNumber, String data) throws IOException {
+        Path path = Paths.get("website/dist/js/main.js");
+        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        lines.set(lineNumber - 1, data);
+        Files.write(path, lines, StandardCharsets.UTF_8);
     }
 }
