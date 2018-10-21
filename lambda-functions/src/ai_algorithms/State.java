@@ -8,6 +8,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class State {
     public List<Hospital> hospitals;
@@ -47,27 +48,31 @@ public class State {
     }
 
     public State copy() {
-        ArrayList<Vehicle> copiaUsed = new ArrayList<>();
+        ArrayList<Vehicle> copiaUsed = new ArrayList<>(usedVehicles.size());
         for(Vehicle vehicle: usedVehicles) {
             copiaUsed.add(vehicle.copy());
         }
-        ArrayList<Vehicle> copiaUnused = new ArrayList<>();
+        ArrayList<Vehicle> copiaUnused = new ArrayList<>(unusedVehicles.size());
         for(Vehicle vehicle: unusedVehicles) {
             copiaUnused.add(vehicle.copy());
         }
-        ArrayList<Incident> copiaServed = new ArrayList<>();
+        ArrayList<Incident> copiaServed = new ArrayList<>(servedIncidents.size());
         for(Incident incident: servedIncidents) {
             copiaServed.add(incident.copy());
         }
-        ArrayList<Incident> copiaUnserved = new ArrayList<>();
+        ArrayList<Incident> copiaUnserved = new ArrayList<>(unservedIncidents.size());
         for(Incident incident: unservedIncidents) {
             copiaUnserved.add(incident.copy());
         }
-        ArrayList<Hospital> copiaHospitals = new ArrayList<>();
+        ArrayList<Hospital> copiaHospitals = new ArrayList<>(hospitals.size());
         for(Hospital hospital: hospitals) {
             copiaHospitals.add(hospital.copy());
         }
-        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved, copiaHospitals, medicCenters);
+        ArrayList<MedicCenter> copiaCenters = new ArrayList<>(medicCenters.size());
+        for(MedicCenter mc: medicCenters) {
+            copiaCenters.add(mc.copy());
+        }
+        return new State(copiaUsed, copiaServed, copiaUnused, copiaUnserved, copiaHospitals, copiaCenters);
     }
 
     private int number_of_vehicles() {
@@ -126,7 +131,7 @@ public class State {
         double b = kmVehiclesHeuristic();
         double c = mobilizedVehiclesHeuristic();
         double res = 4 * a - b - c;
-        return (int) (-10000. * res);
+        return (int) Math.round(-100. * res);
     }
 
     private double mobilizedVehiclesHeuristic() {

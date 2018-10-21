@@ -1,7 +1,6 @@
 package entities;
 
 public class Hospital extends Establishment {
-
     private int numBeds;
     private int freeBeds;
 

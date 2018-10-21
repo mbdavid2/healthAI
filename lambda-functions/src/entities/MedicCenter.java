@@ -5,6 +5,10 @@ public class MedicCenter extends Establishment {
         super(lat, lon, name);
     }
 
+    public MedicCenter copy() {
+        return new MedicCenter(getLatitude(), getLongitude(), getName());
+    }
+
     @Override
     public boolean canAffordPacient(Incident i) {
         return false;
