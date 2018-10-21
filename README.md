@@ -1,7 +1,3 @@
 # void mistery()
 
-## Challenges:
-
-- AWSEducate
-- ThoughtWorks
-- .tech domains
+System that uses Hill Climbing algorithm (using AIMA library) to assign medical vehicles to reported incidencies. 
