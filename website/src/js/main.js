@@ -93,7 +93,7 @@ function initMap() {
 
     // The map, centered at Uluru
     map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 4, center: {lat: 0, lng: 0},
+        document.getElementById('map'), {zoom: 12, center: {lat: 39.969128, lng: -0.068178},
             mapTypeId: google.maps.MapTypeId.ROADMAP});
     infoWindow = new google.maps.InfoWindow();
     infoWindow.setMap(map);
@@ -102,8 +102,14 @@ function initMap() {
         .removeAttr("hidden")
         .click(()=>{
             $('#submitIncidences').remove();
+            if(tempMark) {
+                tempMark.setMap(null);
+                tempMark = null;
+            }
+            google.maps.event.clearListeners(infoWindow, 'closeclick');
+            infoWindow.close();
             google.maps.event.clearListeners(map, 'click');
-            drawData(getData());
+            getData();
         });
 
     map.addListener('click', (event) => {
@@ -136,6 +142,12 @@ function initMap() {
 }
 
 function drawData(data) {
+    for(let marker of incidenceMarkers) {
+        marker.setMap(null);
+    }
+    incidenceMarkers = [];
+    incidences = [];
+
     let bound = new google.maps.LatLngBounds();
     drawCenters(data, bound, infoWindow);
     drawIncidences(data, bound, infoWindow);
@@ -147,13 +159,13 @@ function drawCenters(data, bound, info) {
     for(let [id, center] of Object.entries(data.centers)) {
         let marker = new google.maps.Marker({
             position: center.position,
+            zIndex: 10,
             icon: {
                 fillColor: '#fff',
                 fillOpacity: 1,
                 stroke: "black",
                 strokeWeight: 2,
                 scale: 0.07,
-                zIndex: 10,
                 anchor: new google.maps.Point(320, 256),
                 path: (center.type === 'medical_center' ?
                     MEDICAL_CENTER_PATH
@@ -172,12 +184,12 @@ function drawIncidences(data, bound, info) {
     for(let [id, incidence] of Object.entries(data.incidences)) {
         let marker = new google.maps.Marker({
             position: incidence.position,
+            zIndex: 30,
             icon: {
                 fillColor: INCIDENCE_COLORS[incidence.gravity],
                 fillOpacity: 1,
                 scale: 9,
                 strokeWeight: 2,
-                zIndex: 30,
                 anchor: new google.maps.Point(0,0),
                 path: google.maps.SymbolPath.CIRCLE
             },
@@ -194,8 +206,10 @@ function drawVehicle(position, vehicleId, vehicle) {
     var marker = new google.maps.Marker({
         position: position,
         icon: {
-            fillColor: '#fff',
+            fillColor: '#8796ff',
             fillOpacity: 1,
+            strokeColor: '#3e477d',
+            strokeWeight: 2,
             scale: 0.05,
             anchor: new google.maps.Point(320, 256),
             path: (vehicle === 'helicopter' ?
@@ -267,42 +281,8 @@ function TxtOverlay(pos, txt, cls, map) {
  * @return {ApiInterface}
  */
 function getData() {
-    return {
-        "vehicles": {
-            "XR4FM": "helicopter",
-            "XJ7OP": "helicopter",
-            "JO9PK": "helicopter"
-        },
-        "centers": {
-            "CENT01":{
-                position: {
-                    lat: 40.3593167,
-                    lng: 0.36542039999994813},
-                type: "hospital",
-                totalBeds: 20,
-                freeBeds: 10
-            },
-            "CENT02":{
-                position: {
-                    lat: 40.4644537,
-                    lng: 0.4500352000000021},
-                type: "hospital",
-                totalBeds: 20,
-                freeBeds: 10
-            }
-        },
-        "incidences": {
-            "INC01": {
-                position: {
-                    lat: 40.4654987,
-                    lng: 0.17876569999998537},
-                gravity: 4
-            }
-        },
-        "routes": [
-            {origin:  {
-                lat: 40.3593167, lng: 0.36542039999994813}, incidence: "INC01", destination: {lat: 40.4644537,
-                lng: 0.4500352000000021}, vehicle: "JO9PK", kms: 2.4}
-        ]
-    };
+    $.get(
+        'data.json',
+        {'incidences': incidences}, (data)=>drawData(data)
+    );
 }
